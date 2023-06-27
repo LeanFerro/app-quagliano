@@ -5,9 +5,9 @@ dbConnectionInfo = {
   host: "localhost",
   port: "3306",
   user: "root",
-  password: "GaiaKira",
+  password: "",
   //connectionLimit: 5, //mysql connection pool length
-  database: "clientes",
+  database: "quagliano",
 };
 
 //create mysql connection pool
