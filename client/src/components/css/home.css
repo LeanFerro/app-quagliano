@@ -1,0 +1,91 @@
+* {
+    
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+.cont-search{
+    width: 100% ;
+    height: 100% ;
+    align-items: center;
+    justify-content: center;
+    padding-top: 90px;
+    
+  }
+
+  .img-buscar {
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        display: flex;
+        margin-bottom: 100px;
+        flex: 1;
+  }
+
+  .search-bar {
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+    background-color: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 10px 20px;
+    backdrop-filter: blur(4px) saturate(180%);
+    
+  }
+
+  .search-bar input {
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 24px 20px;
+    font-size: 20px;
+    color: #2d2958 ;
+    cursor: pointer;
+  }
+
+  ::placeholder {
+    color: #ffffff ;
+  }
+
+  .search-bar button img{
+    width: 35px;
+  }
+
+  .search-bar button {
+    border: 0;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background: #58629b;
+    cursor: pointer;
+  }
+
+  .fondito {
+    background-image: linear-gradient(rgba(142, 142, 172, 0.7), rgba(142, 142, 172, 0.7)), url(../img/manos.jpg);
+   
+  }
+
+  .cont-total{
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    
+  }
+
+  .lupa {
+    display: initial;
+  }
+
+  .cuadro-home {
+    margin: auto;
+    max-width: 70%;
+    color: #e2e2e2;
+    background-color: rgb(36, 28, 68);
+    
+    padding: 10px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
+  }
