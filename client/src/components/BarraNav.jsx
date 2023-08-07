@@ -1,10 +1,27 @@
-import React from "react";
-import { Container, Nav, Navbar, NavDropdown, NavLink } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Nav, Navbar, NavLink, Button } from "react-bootstrap";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import "./css/navbar.css";
+import logo from "./img/logo2.png";
+import linea from "./img/linea.jpg";
+import qLogo from "./img/LG.png";
 
 const BarraNav = () => {
   const location = useLocation();
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const isLinkActive = (pathname) => {
     return pathname === location.pathname ? "active" : "";
@@ -20,12 +37,30 @@ const BarraNav = () => {
         sticky="top"
       >
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">
-            ESTUDIO QUAGLIANO
-          </Navbar.Brand>
+          {/* Logo para pantallas grandes */}
+          {!isMobile && (
+            <Navbar.Brand as={Link} to="/">
+              <img src={logo} alt="Estudio Quagliano" className="logoqua" />
+            </Navbar.Brand>
+          )}
+
+          {/* Logo para pantallas pequeñas (modo celular) */}
+          {isMobile && (
+            <Navbar.Brand as={Link} to="/">
+              <img
+                src={qLogo}
+                alt="Estudio Quagliano Mobile"
+                className="logoq"
+              />
+            </Navbar.Brand>
+          )}
+          <Navbar.Text>
+            <h4>BIENVENIDO AL PORTAL CLIENTES</h4>
+          </Navbar.Text>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
+            <Nav className="ms-auto">
               <ul className="navbar-nav">
                 <li className={`nav-item ${isLinkActive("/marcas")}`}>
                   <NavLink as={Link} to="/marcas" className="nav-link">
@@ -37,29 +72,21 @@ const BarraNav = () => {
                     Clientes
                   </Nav.Link>
                 </li>
-                <li className={`nav-item ${isLinkActive("/oposiciones")}`}>
-                  <Nav.Link as={Link} to="/oposiciones" className="nav-link">
-                    Oposiciones
-                  </Nav.Link>
-                </li>
               </ul>
-              <NavDropdown title="Alertas" id="collasible-nav-dropdown">
-                <NavDropdown.Item>Vencimientos</NavDropdown.Item>
-
-                <NavDropdown.Item href="#action/3.3">Vistas</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Dominios</NavDropdown.Item>
-              </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">Perfil</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
-                Salir
-              </Nav.Link>
+              <Button variant="outline-light">
+                <Nav as={Link} to="/login" className="log-btn">
+                  Salir
+                </Nav>
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div className="cont-linea">
+        <img src={linea} className="linea1" alt="" />
+      </div>
       <section>
         <Outlet></Outlet>
       </section>

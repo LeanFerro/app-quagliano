@@ -5,7 +5,7 @@ dbConnectionInfo = {
   host: "localhost",
   port: "3306",
   user: "root",
-  password: "GaiaKira",
+  password: "",
   //connectionLimit: 5, //mysql connection pool length
   database: "clientes",
 };
@@ -26,3 +26,5 @@ dbconnection.on("connection", function (connection) {
 });
 
 module.exports = dbconnection;
+
+("");

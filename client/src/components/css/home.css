@@ -34,7 +34,6 @@
   .search-bar {
     margin: auto;
     width: 100%;
-
     max-width: 700px;
     background-color: rgba(255,255,255,0.2);
     display: flex;

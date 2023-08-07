@@ -3,7 +3,7 @@ import "./App.css";
 import BarraNav from "./components/BarraNav";
 import TablaClientes from "./components/TablaClientes";
 import TablaMarcas from "./components/TablaMarcas";
-import TablaOposiciones from "./components/TablaOposiciones";
+import Login from "./components/Login";
 import Home from "./components/Home";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="marcas" element={<TablaMarcas />} />
             <Route path="clientes" element={<TablaClientes />} />
-            <Route path="oposiciones" element={<TablaOposiciones />} />
+            <Route path="login" element={<Login />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Route>
         </Routes>
