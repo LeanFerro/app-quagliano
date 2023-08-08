@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import "./css/login.css";
+import { Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -22,11 +25,11 @@ const Login = () => {
   return (
     <div>
       <form
-        className="mx-auto border-2 p-9 md:p-12 w-72 md:w-96 border-cyan-400 mt-36 h-84"
+        className="mx-auto border-2 p-9 md:p-12 w-72 md:w-96 mt-36 h-84 f-azul"
         onSubmit={submitHandler}
       >
         <h3 className="pb-6 text-2xl text-center text-white">SignUp</h3>
-        <label className="block mb-1 text-xl text-cyan-400" htmlForm="username">
+        <label className="block mb-1 text-xl tex-input" htmlForm="username">
           Username
         </label>
         <input
@@ -36,7 +39,7 @@ const Login = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <label className="block mb-1 text-xl text-cyan-400" htmlForm="password">
+        <label className="block mb-1 text-xl tex-input" htmlForm="password">
           Password
         </label>
         <input
@@ -47,8 +50,13 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="flex justify-between">
-          <button className="px-3 py-1 rounded-sm bg-cyan-400" type="submit">
+          <button className="px-3 py-1 rounded-sm bot-sub" type="submit">
             Submit
+          </button>
+          <button className="px-3 py-1 rounded-sm bot-sub" type="submit">
+            <Nav as={Link} to="/marcas" className="log">
+              login
+            </Nav>
           </button>
         </div>
       </form>

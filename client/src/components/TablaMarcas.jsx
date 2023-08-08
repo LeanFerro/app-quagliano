@@ -3,14 +3,20 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
+import { Button } from "primereact/button";
 import axios from "axios";
+import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
-import "./css/tablaclientes.css";
+import "./css/tablamarcas.css";
 import "primeicons/primeicons.css";
 import { useLocation } from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
+import boletin from "./img/1boletin.jpg";
 
 const TablaMarcas = () => {
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -53,26 +59,55 @@ const TablaMarcas = () => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-end">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            onInput={(e) =>
-              setFilters({
-                ...filters,
-                global: {
-                  value: e.target.value,
-                  matchMode: FilterMatchMode.CONTAINS,
-                },
-              })
-            }
-            placeholder="Búsqueda general"
-          />
-        </span>
+      <div>
+        <div className="titulo">
+          <h1 className="nomb-emp">Votionis S.A.</h1>
+        </div>
+        <div className="header">
+          <div className="flex justify-content-end ">
+            <span className="p-input-icon-left">
+              <i className="pi pi-search" />
+              <InputText
+                onInput={(e) =>
+                  setFilters({
+                    ...filters,
+                    global: {
+                      value: e.target.value,
+                      matchMode: FilterMatchMode.CONTAINS,
+                    },
+                  })
+                }
+                placeholder="Ingrese su marca"
+              />
+            </span>
+          </div>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Votionis S.A
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-1">
+                Ideas del Sur S.A.
+              </Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Telepiu S.A.</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">DH COM</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </div>
     );
   };
   const header = renderHeader();
+
+  const handleRowClick = (rowData) => {
+    setSelectedRow(rowData);
+    setModalVisible(true);
+  };
+
+  const hideModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <div>
@@ -94,8 +129,24 @@ const TablaMarcas = () => {
         ]}
         emptyMessage="No se encontraron resultados"
       >
-        <Column headerStyle={{ width: "2rem" }}></Column>
-        <Column field="MARCA" header="MARCA" style={{ minWidth: "400px" }} />
+        <Column
+          body={(rowData) => (
+            <Button
+              label=""
+              icon="pi pi-search"
+              onClick={() => handleRowClick(rowData)}
+            />
+          )}
+        />
+
+        <Column
+          field="MARCA"
+          header="MARCA"
+          style={{ minWidth: "400px" }}
+          body={(rowData) => (
+            <span style={{ paddingLeft: "10px" }}>{rowData.MARCA}</span>
+          )}
+        />
         <Column field="ACTA" header="ACTA" style={{ minWidth: "200px" }} />
         <Column field="NRESO" header="NRESO" style={{ minWidth: "200px" }} />
         <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
@@ -106,6 +157,20 @@ const TablaMarcas = () => {
         />
         <Column field="FVTODU" header="FVTODU" style={{ minWidth: "200px" }} />
       </DataTable>
+      <Dialog
+        visible={modalVisible}
+        onHide={hideModal}
+        header={
+          selectedRow && (
+            <div className="modalhead">
+              <h2>{selectedRow.MARCA}</h2>
+            </div>
+          )
+        }
+        style={{ minWidth: "400px" }}
+      >
+        <img src={boletin} alt=""></img>
+      </Dialog>
     </div>
   );
 };

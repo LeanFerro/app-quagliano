@@ -26,3 +26,5 @@ dbconnection.on("connection", function (connection) {
 });
 
 module.exports = dbconnection;
+
+("");
