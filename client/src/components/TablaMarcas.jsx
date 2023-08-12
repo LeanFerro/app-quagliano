@@ -111,52 +111,58 @@ const TablaMarcas = () => {
 
   return (
     <div>
-      <DataTable
-        value={marcas}
-        paginator
-        rows={20}
-        filters={filters}
-        selectionMode="single"
-        dataKey="id"
-        header={header}
-        globalFilterFields={[
-          "MARCA",
-          "ACTA",
-          "NRESO",
-          "CLASE",
-          "FEC_VTO",
-          "FVTODU",
-        ]}
-        emptyMessage="No se encontraron resultados"
-      >
-        <Column
-          body={(rowData) => (
-            <Button
-              label=""
-              icon="pi pi-search"
-              onClick={() => handleRowClick(rowData)}
-            />
-          )}
-        />
+      <div className="table-container">
+        <DataTable
+          value={marcas}
+          paginator
+          rows={20}
+          filters={filters}
+          selectionMode="single"
+          dataKey="id"
+          header={header}
+          globalFilterFields={[
+            "MARCA",
+            "ACTA",
+            "NRESO",
+            "CLASE",
+            "FEC_VTO",
+            "FVTODU",
+          ]}
+          emptyMessage="No se encontraron resultados"
+        >
+          <Column
+            body={(rowData) => (
+              <Button
+                label=""
+                icon="pi pi-search"
+                onClick={() => handleRowClick(rowData)}
+              />
+            )}
+          />
 
-        <Column
-          field="MARCA"
-          header="MARCA"
-          style={{ minWidth: "400px" }}
-          body={(rowData) => (
-            <span style={{ paddingLeft: "10px" }}>{rowData.MARCA}</span>
-          )}
-        />
-        <Column field="ACTA" header="ACTA" style={{ minWidth: "200px" }} />
-        <Column field="NRESO" header="NRESO" style={{ minWidth: "200px" }} />
-        <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
-        <Column
-          field="FEC_VTO"
-          header="FEC_VTO"
-          style={{ minWidth: "200px" }}
-        />
-        <Column field="FVTODU" header="FVTODU" style={{ minWidth: "200px" }} />
-      </DataTable>
+          <Column
+            field="MARCA"
+            header="MARCA"
+            style={{ minWidth: "400px" }}
+            body={(rowData) => (
+              <span style={{ paddingLeft: "10px" }}>{rowData.MARCA}</span>
+            )}
+          />
+          <Column field="ACTA" header="ACTA" style={{ minWidth: "200px" }} />
+          <Column field="NRESO" header="NRESO" style={{ minWidth: "200px" }} />
+          <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
+          <Column
+            field="FEC_VTO"
+            header="FEC_VTO"
+            style={{ minWidth: "200px" }}
+          />
+          <Column
+            field="FVTODU"
+            header="FVTODU"
+            style={{ minWidth: "200px" }}
+          />
+        </DataTable>
+      </div>
       <Dialog
         visible={modalVisible}
         onHide={hideModal}

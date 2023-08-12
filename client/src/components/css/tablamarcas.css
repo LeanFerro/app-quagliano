@@ -65,4 +65,20 @@ th{
     margin-bottom: 10px;
   }
 
+  .p-datatable {
+    /* Ajusta el valor del margen según tus necesidades */
+     border: 2px solid rgb(49,91,148);
+     padding: 0 7px;
+     background: rgb(228, 225, 238);
+   }
+
+  .table-container {
+    width: 100%;
+    height: 100%;
+    background: rgb(232,171,174);
+    padding: 20px 10px;
+  }
+
+
+
 
