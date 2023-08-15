@@ -13,13 +13,15 @@ app.get("/", (req, res) => {
   res.send("Hello world :)!!");
 });
 
+//TODO mover a headers
 app.post("/signup", (req, res) => {
-  const username = req.body.username;
+  const username = req.body.correo;
   const password = req.body.password;
-
+  const cuit = req.body.cuit;
+//TODO validate cuit. correo
   dbconnection.query(
-    "INSERT INTO users (user_name, password) VALUES (?, ?)",
-    [username, password],
+    "INSERT INTO users (user_name, correo, cuit) VALUES (?, ?, ?)",
+    [username, password, cuit],
     (error, result) => {
       if (error) console.log(error);
       else res.send({ username: username });
