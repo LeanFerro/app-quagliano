@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS usuarios; CREATE TABLE usuarios (
   secreto varchar(45) NOT NULL,
   estado varchar(45) NOT NULL DEFAULT 'activo',
   role varchar(45) NOT NULL DEFAULT 'usuario',
+  id_cliente bigint NOT NULL,
   fecha_creacion datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  id_grupo bigint NOT NULL,
   PRIMARY KEY (id_usuario),
-  FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
+  FOREIGN KEY (id_cliente)
 );
 
 DROP TABLE IF EXISTS clientes; CREATE TABLE clientes (

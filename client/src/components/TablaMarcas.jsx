@@ -13,21 +13,6 @@ import "primeicons/primeicons.css";
 import { useLocation } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "./img/1boletin.jpg";
-import React, { useState, useEffect } from "react";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
-import { FilterMatchMode } from "primereact/api";
-import { Button } from "primereact/button";
-import axios from "axios";
-import { Dialog } from "primereact/dialog";
-import "primereact/resources/themes/saga-purple/theme.css";
-import "primereact/resources/primereact.min.css";
-import "./css/tablamarcas.css";
-import "primeicons/primeicons.css";
-import { useLocation } from "react-router-dom";
-import Dropdown from "react-bootstrap/Dropdown";
-import boletin from "./img/1boletin.jpg";
 
 const TablaMarcas = () => {
   const [selectedRow, setSelectedRow] = useState(null);

@@ -5,21 +5,44 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Log = () => {
-  const [username, setUsername] = useState("");
+  const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
+  const [cuit, setCuit] = useState("");
+  const [nombreCliente, setNombreCliente] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
-  const submitHandler = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:8080/signup", {
-        username: username,
-        password: password,
-      })
-      .then((data) => {
-        console.log(data);
-        setUsername("");
+
+    try {
+      // Aquí realizas la llamada a tu API para verificar el CUIT en la tabla clientes.
+      console.log("Verificando CUIT:", cuit);
+      const response = await axios.get(
+        `http://localhost:8080/clientes?cuit=${cuit}`
+      );
+      console.log("Respuesta del servidor:", response.data);
+
+      if (response.data) {
+        setNombreCliente(response.data.nombre);
+        setMensaje("CUIT verificado con éxito.");
+
+        // Ahora puedes realizar la llamada a tu API de registro.
+        await axios.post("http://localhost:8080/signup", {
+          password: password,
+          correo: correo,
+          cuit: cuit,
+        });
+
+        // Limpia los campos después del registro exitoso.
+        setCorreo("");
         setPassword("");
-      });
+        setCuit("");
+      } else {
+        setMensaje("El CUIT ingresado no coincide con nuestros registros.");
+      }
+    } catch (error) {
+      setMensaje("Error al verificar el CUIT.");
+    }
   };
 
   useEffect(() => {
@@ -47,6 +70,10 @@ const Log = () => {
       }
     };
   }, []);
+
+  const handleCUITChange = (event) => {
+    setCuit(event.target.value);
+  };
 
   return (
     <div className="cont-search">
@@ -98,23 +125,31 @@ const Log = () => {
           <div className="form-information">
             <div className="form-information-childs">
               <h2>Crear una cuenta</h2>
-              <form className="form" onSubmit={submitHandler}>
-                <label htmlForm="username">
+              <form className="form" onSubmit={handleSubmit}>
+                <label htmlFor="cuit">
                   <i className="bx bx-building"></i>
-                  <input type="number" placeholder="CUIT" />
+                  <input
+                    id="cuit"
+                    type="text"
+                    value={cuit}
+                    onChange={handleCUITChange}
+                    placeholder="CUIT"
+                  />
                 </label>
-                <label>
+                <h3>{nombreCliente}</h3>
+                <p>{mensaje}</p>
+                <label htmlFor="username">
                   <i className="bx bx-envelope"></i>
                   <input
                     type="email"
                     placeholder="Correo Electrónico"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
                     id="username"
                     required
                   />
                 </label>
-                <label htmlForm="password">
+                <label htmlFor="password">
                   <i className="bx bx-lock-alt"></i>
                   <input
                     type="password"
@@ -126,11 +161,7 @@ const Log = () => {
                   />
                 </label>
 
-                <button type="submit">
-                  <Nav as={Link} className="log">
-                    Resgistrarse
-                  </Nav>
-                </button>
+                <button type="submit">Registrarse</button>
               </form>
             </div>
           </div>
