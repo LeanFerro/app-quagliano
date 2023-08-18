@@ -15,16 +15,16 @@ app.get("/", (req, res) => {
 
 //TODO mover a headers
 app.post("/signup", (req, res) => {
-  const username = req.body.correo;
-  const password = req.body.password;
-  const cuit = req.body.cuit;
-//TODO validate cuit. correo
+  const correo = req.body.correo;
+  const secreto = req.body.password;
+
+  //TODO validate cuit. correo
   dbconnection.query(
-    "INSERT INTO users (user_name, correo, cuit) VALUES (?, ?, ?)",
-    [username, password, cuit],
+    "INSERT INTO usuarios (secreto, correo) VALUES (?, ?)",
+    [correo, secreto],
     (error, result) => {
       if (error) console.log(error);
-      else res.send({ username: username });
+      else res.send({ correo: correo });
     }
   );
 });

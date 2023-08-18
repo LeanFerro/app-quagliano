@@ -1,8 +1,12 @@
 
 
- .color {
-    background-color:  rgb(176, 171, 197) !important;
+  .color {
+    background-color:  rgb(214, 214, 214) !important;
   }
+    
+.nav-link:focus, .nav-link:hover {
+  color: rgba(218, 32, 32, 0.75);
+}
 
   .navbar-nav {
     --bs-nav-link-color: rgb(36, 28, 68) !important;
@@ -15,12 +19,12 @@
 }
 
 .nav-link {  
-    font-size: 18px !important;
-    
+    font-size: 18px !important; 
 }
 
 .navbar {
-  padding: 0 !important;
+  padding: 0 10px !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5)
 }
 
 .logoqua {
@@ -33,12 +37,12 @@
   max-height: 40px;
 }
 
-.cont-linea {
+/* .cont-linea {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5) ;
   z-index: 100;
   position: absolute;
  
-}
+} */
 
 @media (max-width: 767px) {
   
@@ -46,19 +50,19 @@
     height: 5px;
   }
   h4 {
-    font-size: 16px !important;
+    font-size: 12px !important;
     margin: 0 !important;
+    font-weight: 600 !important;
+    transform: scaleY(1.5);
   }
 
   .navbar>.container-fluid {
     padding-bottom: 5px
   }
-
-
 }
 
 h4 {
-  color: rgb(30, 25, 44) !important;
+  color: rgb(36, 28, 68) !important;
   margin: 0 !important;
 }
 
@@ -73,17 +77,24 @@ button:not(:disabled) {
 
 .log-btn{
   text-decoration: none;
-  color: white;
+  color: rgb(36, 28, 68);
   justify-content: center;
 }
 
 .log-btn:hover{
   text-decoration: none;
-  color: rgb(30, 25, 44);
+  color: rgb(255, 255, 255) !important;
   
 }
 
 .btn-outline-light {
   margin-left: 10px;
   width: 60px;
+  border-color: rgb(36, 28, 68) !important;
+
+}
+
+.btn-outline-light:hover {
+  border-color: rgb(36, 28, 68) !important;
+  background-color: rgb(36, 28, 68) !important;
 }

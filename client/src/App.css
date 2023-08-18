@@ -1,4 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@300;400;500;700&family=Poppins:wght@300&display=swap");
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 .container-fluid {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.cont-total{
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    
+  }
+
+  .fondito {
+    background-image: linear-gradient(rgba(142, 142, 172, 0.7), rgba(142, 142, 172, 0.7)), url(./components/img/manos.jpg);
+   
+  }
