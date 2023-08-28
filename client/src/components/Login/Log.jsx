@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./log.css";
-import { Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Log = () => {
+  const [showModal, setShowModal] = useState(false);
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
   const [cuit, setCuit] = useState("");
@@ -18,30 +19,81 @@ const Log = () => {
       // Aquí realizas la llamada a tu API para verificar el CUIT en la tabla clientes.
       console.log("Verificando CUIT:", cuit);
       const response = await axios.get(
-        `http://localhost:8080/clientes?cuit=${cuit}`
+        `http://localhost:8080/verificar-cuit?cuit=${cuit}`
       );
       console.log("Respuesta del servidor:", response.data);
 
-      if (response.data) {
-        setNombreCliente(response.data.nombre);
-        setMensaje("CUIT verificado con éxito.");
+      if (response.status === 200) {
+        if (response.data.existe) {
+          setMensaje("Este CUIT ya ha sido utilizado.");
+        } else {
+          setNombreCliente(response.data.nombre);
+          setMensaje("CUIT verificado con éxito.");
 
-        // Ahora puedes realizar la llamada a tu API de registro.
-        await axios.post("http://localhost:8080/signup", {
-          password: password,
-          correo: correo,
-          cuit: cuit,
-        });
+          const idCliente = response.data.id_cliente;
+          console.log("Verificando id cliente:", response.data.id_cliente);
+          // Ahora puedes realizar la llamada a tu API de registro.
+          await axios.post("http://localhost:8080/signup", {
+            idCliente: idCliente,
+            password: password,
+            correo: correo,
+            cuit: cuit,
+          });
 
-        // Limpia los campos después del registro exitoso.
-        setCorreo("");
-        setPassword("");
-        setCuit("");
+          // Limpia los campos después del registro exitoso.
+          setCorreo("");
+          setPassword("");
+          setCuit("");
+
+          setShowModal(true);
+        }
       } else {
-        setMensaje("El CUIT ingresado no coincide con nuestros registros.");
+        setMensaje(response.data);
       }
     } catch (error) {
       setMensaje("Error al verificar el CUIT.");
+    }
+  };
+
+  // Login
+
+  const navigate = useNavigate(); // Inicializa useNavigate
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Aquí realizas la llamada a tu API para verificar los datos de inicio de sesión.
+      console.log("Cuit y contraseña:", cuit, password);
+      const response = await axios.post("http://localhost:8080/login", {
+        cuit: cuit,
+        password: password,
+      });
+
+      if (response.status === 200) {
+        // Si las credenciales son correctas, redirige al componente deseado
+        const nombre = await obtenerNombreCliente(response.data.id_cliente);
+        console.log(nombre);
+        setNombreCliente(nombre);
+        navigate("/marcas", { state: { nombreCliente: nombreCliente } });
+      } else {
+        setMensaje("Credenciales incorrectas.");
+      }
+    } catch (error) {
+      setMensaje("Error al verificar las credenciales.");
+    }
+  };
+
+  const obtenerNombreCliente = async (idCliente) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/obtener-nombre-cliente?idCliente=${idCliente}`
+      );
+      console.log(response);
+      return response.data.nombreCliente;
+    } catch (error) {
+      console.log("Error al obtener el nombre del cliente:", error);
+      return "Nombre no disponible";
     }
   };
 
@@ -75,6 +127,12 @@ const Log = () => {
     setCuit(event.target.value);
   };
 
+  // Función para cerrar el modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    window.location.reload();
+  };
+
   return (
     <div className="cont-search">
       <div className="formbody">
@@ -89,24 +147,28 @@ const Log = () => {
           <div className="form-information">
             <div className="form-information-childs">
               <h2>Iniciar Sesión</h2>
-              <form className="form">
+              <form className="form" onSubmit={handleLogin}>
                 <label>
-                  <i className="bx bx-envelope"></i>
+                  <i className="bx bx-building"></i>
                   <input
-                    type="email"
-                    placeholder="Correo Electrónico"
+                    type="text"
+                    value={cuit}
+                    onChange={(e) => setCuit(e.target.value)}
+                    placeholder="CUIT"
                     required
                   />
                 </label>
                 <label>
                   <i className="bx bx-lock-alt"></i>
-                  <input type="password" placeholder="Contraseña" required />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Contraseña"
+                    required
+                  />
                 </label>
-                <button type="submit">
-                  <Nav as={Link} to="/marcas" className="log">
-                    Iniciar Sesion
-                  </Nav>
-                </button>
+                <button type="submit">Iniciar Sesion</button>
               </form>
             </div>
           </div>
@@ -167,6 +229,18 @@ const Log = () => {
           </div>
         </div>
       </div>
+      {/* Modal de registro exitoso */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Registro Exitoso</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¡El usuario ha sido registrado con éxito!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
