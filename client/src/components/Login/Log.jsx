@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./log.css";
+
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Log = () => {
+
   const [showModal, setShowModal] = useState(false);
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +21,7 @@ const Log = () => {
       // Aquí realizas la llamada a tu API para verificar el CUIT en la tabla clientes.
       console.log("Verificando CUIT:", cuit);
       const response = await axios.get(
+
         `http://localhost:8080/verificar-cuit?cuit=${cuit}`
       );
       console.log("Respuesta del servidor:", response.data);
@@ -54,6 +57,7 @@ const Log = () => {
       setMensaje("Error al verificar el CUIT.");
     }
   };
+
 
   // Login
 
@@ -127,11 +131,13 @@ const Log = () => {
     setCuit(event.target.value);
   };
 
+
   // Función para cerrar el modal
   const handleCloseModal = () => {
     setShowModal(false);
     window.location.reload();
   };
+
 
   return (
     <div className="cont-search">
@@ -147,6 +153,7 @@ const Log = () => {
           <div className="form-information">
             <div className="form-information-childs">
               <h2>Iniciar Sesión</h2>
+
               <form className="form" onSubmit={handleLogin}>
                 <label>
                   <i className="bx bx-building"></i>
@@ -160,6 +167,7 @@ const Log = () => {
                 </label>
                 <label>
                   <i className="bx bx-lock-alt"></i>
+
                   <input
                     type="password"
                     value={password}
@@ -169,6 +177,7 @@ const Log = () => {
                   />
                 </label>
                 <button type="submit">Iniciar Sesion</button>
+
               </form>
             </div>
           </div>
@@ -229,6 +238,7 @@ const Log = () => {
           </div>
         </div>
       </div>
+
       {/* Modal de registro exitoso */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -241,6 +251,7 @@ const Log = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </div>
   );
 };

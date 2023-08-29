@@ -124,9 +124,11 @@ const TablaMarcas = () => {
           dataKey="id"
           header={header}
           globalFilterFields={[
+
             "nombre",
             "acta",
             "resolucion",
+
             "CLASE",
             "FEC_VTO",
             "FVTODU",
@@ -144,6 +146,7 @@ const TablaMarcas = () => {
           />
 
           <Column
+
             field="nombre"
             header="MARCA"
             style={{ minWidth: "400px" }}
@@ -157,6 +160,7 @@ const TablaMarcas = () => {
             header="NRESO"
             style={{ minWidth: "200px" }}
           />
+
           <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
           <Column
             field="FEC_VTO"
