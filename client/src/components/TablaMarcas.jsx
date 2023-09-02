@@ -57,10 +57,12 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
+
   let nombreCliente = "Cliente no definido";
   if (location.state) {
     nombreCliente = location.state.nombreCliente;
   }
+
   console.log(nombreCliente);
 
   const renderHeader = () => {
@@ -127,6 +129,7 @@ const TablaMarcas = () => {
           dataKey="id"
           header={header}
           globalFilterFields={[
+
             "nombre",
             "acta",
             "resolucion",

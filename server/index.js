@@ -17,12 +17,14 @@ app.get("/", (req, res) => {
 app.post("/signup", (req, res) => {
   const correo = req.body.correo;
   const secreto = req.body.password;
+
   const cuit = req.body.cuit;
   const id_cliente = req.body.idCliente;
   //TODO validate cuit. correo
   dbconnection.query(
     "INSERT INTO usuarios (secreto, correo, cuit, id_cliente) VALUES (?, ?, ?, ?)",
     [secreto, correo, cuit, id_cliente],
+
     (error, result) => {
       if (error) console.log(error);
       else res.send({ correo: correo });
