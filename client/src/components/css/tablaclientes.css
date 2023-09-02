@@ -11,10 +11,14 @@ th{
     color: beige !important;
 }
 
+.pi{
+  color: rgb(17,24,39);
+}
+
 .p-button {
     padding: 5px 8px ;
     margin-left: 5px;
-    background-color: rgb(100, 18, 18) !important;
+    background-color: rgb(215,169,170) !important;
     border: 1px solid rgb(36, 28, 68) !important;
     border-radius: 10px;
 }
@@ -26,7 +30,7 @@ th{
 .p-datatable .p-datatable-tbody > tr {
     background-color: rgb(36, 28, 68) !important; 
     transition: background-color 0.3s ease !important;
-    border-bottom: 1px solid rgb(78, 78, 80) !important;
+    border-bottom: 1px double rgb(78, 78, 80) !important;
   }
   
   /* Estilo para la fila en hover */
@@ -50,4 +54,17 @@ th{
     margin-top: 20px;
   }
  
+  .p-datatable {
+   /* Ajusta el valor del margen según tus necesidades */
+    border: 2px solid rgb(49,91,148);
+    padding: 0 7px;
+    background: rgb(228, 225, 238);
+  }
+
+  .table-container {
+    width: 100%;
+    height: 100%;
+    background: rgb(202, 202, 202);
+    padding: 10px;
+  }
 

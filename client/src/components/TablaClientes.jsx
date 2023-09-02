@@ -91,61 +91,63 @@ const TablaClientes = () => {
 
   return (
     <div>
-      <DataTable
-        value={clientes}
-        paginator
-        rows={15}
-        filters={filters}
-        selectionMode="single"
-        dataKey="id"
-        header={header}
-        globalFilterFields={[
-          "CLIENTE",
-          "CUIT",
-          "EMAIL",
-          "FIRMANTE",
-          "DOMICILIO",
-          "ACLARACION",
-        ]}
-        emptyMessage="No se encontraron resultados"
-      >
-        <Column
-          body={(rowData) => (
-            <Button
-              label=""
-              icon="pi pi-search"
-              onClick={() => handleRowClick(rowData)}
-            />
-          )}
-        />
-        <Column
-          field="CLIENTE"
-          header="CLIENTE"
-          style={{ minWidth: "400px" }}
-        />
-        <Column header="CUIT" field="CUIT" style={{ maxWidth: "150px" }} />
-        <Column header="EMAIL" field="EMAIL" style={{ minWidth: "200px" }} />
-        <Column
-          field="ACLARACION"
-          header="GRUPO"
-          style={{ minWidth: "200px" }}
-        />
-        <Column
-          field="FIRMANTE"
-          header="FIRMANTE"
-          style={{ minWidth: "300px" }}
-        />
-        <Column
-          field="DOMICILIO"
-          header="DOMICILIO"
-          style={{ minWidth: "300px" }}
-        />
-        <Column
-          field="LOCALIDAD"
-          header="LOCALIDAD"
-          style={{ minWidth: "200px" }}
-        />
-      </DataTable>
+      <div className="table-container">
+        <DataTable
+          value={clientes}
+          paginator
+          rows={15}
+          filters={filters}
+          selectionMode="single"
+          dataKey="id"
+          header={header}
+          globalFilterFields={[
+            "CLIENTE",
+            "CUIT",
+            "EMAIL",
+            "FIRMANTE",
+            "DOMICILIO",
+            "ACLARACION",
+          ]}
+          emptyMessage="No se encontraron resultados"
+        >
+          <Column
+            body={(rowData) => (
+              <Button
+                label=""
+                icon="pi pi-search"
+                onClick={() => handleRowClick(rowData)}
+              />
+            )}
+          />
+          <Column
+            field="CLIENTE"
+            header="CLIENTE"
+            style={{ minWidth: "400px" }}
+          />
+          <Column header="CUIT" field="CUIT" style={{ maxWidth: "150px" }} />
+          <Column header="EMAIL" field="EMAIL" style={{ minWidth: "200px" }} />
+          <Column
+            field="ACLARACION"
+            header="GRUPO"
+            style={{ minWidth: "200px" }}
+          />
+          <Column
+            field="FIRMANTE"
+            header="FIRMANTE"
+            style={{ minWidth: "300px" }}
+          />
+          <Column
+            field="DOMICILIO"
+            header="DOMICILIO"
+            style={{ minWidth: "300px" }}
+          />
+          <Column
+            field="LOCALIDAD"
+            header="LOCALIDAD"
+            style={{ minWidth: "200px" }}
+          />
+        </DataTable>
+      </div>
       <Dialog
         visible={modalVisible}
         onHide={hideModal}

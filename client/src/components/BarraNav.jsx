@@ -3,7 +3,6 @@ import { Container, Nav, Navbar, NavLink, Button } from "react-bootstrap";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import "./css/navbar.css";
 import logo from "./img/logo2.png";
-import linea from "./img/linea.jpg";
 import qLogo from "./img/LG.png";
 
 const BarraNav = () => {
@@ -55,7 +54,7 @@ const BarraNav = () => {
             </Navbar.Brand>
           )}
           <Navbar.Text>
-            <h4>BIENVENIDO AL PORTAL CLIENTES</h4>
+            <h4>Bienvenido al portal clientes</h4>
           </Navbar.Text>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
@@ -84,9 +83,7 @@ const BarraNav = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className="cont-linea">
-        <img src={linea} className="linea1" alt="" />
-      </div>
+
       <section>
         <Outlet></Outlet>
       </section>

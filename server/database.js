@@ -7,7 +7,7 @@ dbConnectionInfo = {
   user: "root",
   password: "",
   //connectionLimit: 5, //mysql connection pool length
-  database: "clientes",
+  database: "app",
 };
 
 //create mysql connection pool

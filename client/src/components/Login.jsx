@@ -26,14 +26,15 @@ const Login = () => {
       });
   };
 
-
   return (
     <div>
       <form
         className="mx-auto border-2 p-9 md:p-12 w-72 md:w-96 mt-36 h-84 f-azul"
         onSubmit={submitHandler}
       >
-        <h3 className="pb-6 text-2xl text-center text-white">Ingrese sus datos</h3>
+        <h3 className="pb-6 text-2xl text-center text-white">
+          Ingrese sus datos
+        </h3>
 
         <label className="block mb-1 text-xl tex-input" htmlForm="username">
           correo
@@ -54,7 +55,7 @@ const Login = () => {
           id="cuit"
           type="cuit"
           value={cuit}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setCuit(e.target.value)}
         />
 
         <label className="block mb-1 text-xl tex-input" htmlForm="password">
@@ -74,6 +75,11 @@ const Login = () => {
           <button className="px-3 py-1 rounded-sm bot-sub" type="submit">
             <Nav as={Link} to="/marcas" className="log">
               Ingresar
+            </Nav>
+          </button>
+          <button className="px-3 py-1 rounded-sm bot-sub" type="submit">
+            <Nav as={Link} to="/marcas" className="log">
+              login
             </Nav>
           </button>
         </div>

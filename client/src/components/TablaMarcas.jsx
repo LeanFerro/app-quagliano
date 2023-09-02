@@ -20,9 +20,9 @@ const TablaMarcas = () => {
   const [marcas, setMarcas] = useState([]);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    MARCA: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    ACTA: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    NRESO: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    acta: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    resolucion: { value: null, matchMode: FilterMatchMode.CONTAINS },
     CLASE: { value: null, matchMode: FilterMatchMode.CONTAINS },
     FEC_VTO: { value: null, matchMode: FilterMatchMode.CONTAINS },
     FVTODU: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -57,11 +57,19 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
+
+  let nombreCliente = "Cliente no definido";
+  if (location.state) {
+    nombreCliente = location.state.nombreCliente;
+  }
+
+  console.log(nombreCliente);
+
   const renderHeader = () => {
     return (
       <div>
         <div className="titulo">
-          <h1 className="nomb-emp">Votionis S.A.</h1>
+          <h1 className="nomb-emp">{nombreCliente}</h1>
         </div>
         <div className="header">
           <div className="flex justify-content-end ">
@@ -111,52 +119,63 @@ const TablaMarcas = () => {
 
   return (
     <div>
-      <DataTable
-        value={marcas}
-        paginator
-        rows={20}
-        filters={filters}
-        selectionMode="single"
-        dataKey="id"
-        header={header}
-        globalFilterFields={[
-          "MARCA",
-          "ACTA",
-          "NRESO",
-          "CLASE",
-          "FEC_VTO",
-          "FVTODU",
-        ]}
-        emptyMessage="No se encontraron resultados"
-      >
-        <Column
-          body={(rowData) => (
-            <Button
-              label=""
-              icon="pi pi-search"
-              onClick={() => handleRowClick(rowData)}
-            />
-          )}
-        />
+      <div className="table-container">
+        <DataTable
+          value={marcas}
+          paginator
+          rows={20}
+          filters={filters}
+          selectionMode="single"
+          dataKey="id"
+          header={header}
+          globalFilterFields={[
 
-        <Column
-          field="MARCA"
-          header="MARCA"
-          style={{ minWidth: "400px" }}
-          body={(rowData) => (
-            <span style={{ paddingLeft: "10px" }}>{rowData.MARCA}</span>
-          )}
-        />
-        <Column field="ACTA" header="ACTA" style={{ minWidth: "200px" }} />
-        <Column field="NRESO" header="NRESO" style={{ minWidth: "200px" }} />
-        <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
-        <Column
-          field="FEC_VTO"
-          header="FEC_VTO"
-          style={{ minWidth: "200px" }}
-        />
-        <Column field="FVTODU" header="FVTODU" style={{ minWidth: "200px" }} />
-      </DataTable>
+            "nombre",
+            "acta",
+            "resolucion",
+            "CLASE",
+            "FEC_VTO",
+            "FVTODU",
+          ]}
+          emptyMessage="No se encontraron resultados"
+        >
+          <Column
+            body={(rowData) => (
+              <Button
+                label=""
+                icon="pi pi-search"
+                onClick={() => handleRowClick(rowData)}
+              />
+            )}
+          />
+
+          <Column
+            field="nombre"
+            header="MARCA"
+            style={{ minWidth: "400px" }}
+            body={(rowData) => (
+              <span style={{ paddingLeft: "10px" }}>{rowData.nombre}</span>
+            )}
+          />
+          <Column field="acta" header="ACTA" style={{ minWidth: "200px" }} />
+          <Column
+            field="resolucion"
+            header="NRESO"
+            style={{ minWidth: "200px" }}
+          />
+          <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
+          <Column
+            field="FEC_VTO"
+            header="FEC_VTO"
+            style={{ minWidth: "200px" }}
+          />
+          <Column
+            field="FVTODU"
+            header="FVTODU"
+            style={{ minWidth: "200px" }}
+          />
+        </DataTable>
+      </div>
       <Dialog
         visible={modalVisible}
         onHide={hideModal}
