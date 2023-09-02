@@ -34,10 +34,10 @@ const Log = () => {
           console.log("Verificando id cliente:", response.data.id_cliente);
           // Ahora puedes realizar la llamada a tu API de registro.
           await axios.post("http://localhost:8080/signup", {
-            idCliente: idCliente,
-            password: password,
-            correo: correo,
-            cuit: cuit,
+            idCliente,
+            password,
+            correo,
+            cuit,
           });
 
           // Limpia los campos después del registro exitoso.
@@ -66,34 +66,21 @@ const Log = () => {
       // Aquí realizas la llamada a tu API para verificar los datos de inicio de sesión.
       console.log("Cuit y contraseña:", cuit, password);
       const response = await axios.post("http://localhost:8080/login", {
-        cuit: cuit,
-        password: password,
+        cuit,
+        password,
       });
 
       if (response.status === 200) {
-        // Si las credenciales son correctas, redirige al componente deseado
-        const nombre = await obtenerNombreCliente(response.data.id_cliente);
-        console.log(nombre);
-        setNombreCliente(nombre);
-        navigate("/marcas", { state: { nombreCliente: nombreCliente } });
+        console.log("Credenciales válidas:", response.data);
+        // Obtiene el nombre del cliente
+        const nombreCliente = response.data.nombreCliente;
+        // Redirige al componente deseado
+        navigate("/marcas", { state: { nombreCliente } });
       } else {
-        setMensaje("Credenciales incorrectas.");
+        console.log("Credenciales incorrectas.");
       }
     } catch (error) {
       setMensaje("Error al verificar las credenciales.");
-    }
-  };
-
-  const obtenerNombreCliente = async (idCliente) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/obtener-nombre-cliente?idCliente=${idCliente}`
-      );
-      console.log(response);
-      return response.data.nombreCliente;
-    } catch (error) {
-      console.log("Error al obtener el nombre del cliente:", error);
-      return "Nombre no disponible";
     }
   };
 

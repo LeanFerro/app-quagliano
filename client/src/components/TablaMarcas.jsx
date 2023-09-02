@@ -57,7 +57,10 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
-  const nombreCliente = location.state?.nombreCliente;
+  let nombreCliente = "Cliente no definido";
+  if (location.state) {
+    nombreCliente = location.state.nombreCliente;
+  }
   console.log(nombreCliente);
 
   const renderHeader = () => {
