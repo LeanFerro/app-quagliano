@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./log.css";
-
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Log = () => {
-
   const [showModal, setShowModal] = useState(false);
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
   const [cuit, setCuit] = useState("");
   const [nombreCliente, setNombreCliente] = useState("");
   const [mensaje, setMensaje] = useState("");
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -21,7 +18,6 @@ const Log = () => {
       // Aquí realizas la llamada a tu API para verificar el CUIT en la tabla clientes.
       console.log("Verificando CUIT:", cuit);
       const response = await axios.get(
-
         `http://localhost:8080/verificar-cuit?cuit=${cuit}`
       );
       console.log("Respuesta del servidor:", response.data);
@@ -37,10 +33,11 @@ const Log = () => {
           console.log("Verificando id cliente:", response.data.id_cliente);
           // Ahora puedes realizar la llamada a tu API de registro.
           await axios.post("http://localhost:8080/signup", {
-            idCliente: idCliente,
-            password: password,
-            correo: correo,
-            cuit: cuit,
+
+            idCliente,
+            password,
+            correo,
+            cuit,
           });
 
           // Limpia los campos después del registro exitoso.
@@ -58,7 +55,6 @@ const Log = () => {
     }
   };
 
-
   // Login
 
   const navigate = useNavigate(); // Inicializa useNavigate
@@ -70,34 +66,23 @@ const Log = () => {
       // Aquí realizas la llamada a tu API para verificar los datos de inicio de sesión.
       console.log("Cuit y contraseña:", cuit, password);
       const response = await axios.post("http://localhost:8080/login", {
-        cuit: cuit,
-        password: password,
+
+        cuit,
+        password,
       });
 
       if (response.status === 200) {
-        // Si las credenciales son correctas, redirige al componente deseado
-        const nombre = await obtenerNombreCliente(response.data.id_cliente);
-        console.log(nombre);
-        setNombreCliente(nombre);
-        navigate("/marcas", { state: { nombreCliente: nombreCliente } });
+        console.log("Credenciales válidas:", response.data);
+        // Obtiene el nombre del cliente
+        const nombreCliente = response.data.nombreCliente;
+        // Redirige al componente deseado
+        navigate("/marcas", { state: { nombreCliente } });
       } else {
-        setMensaje("Credenciales incorrectas.");
+        console.log("Credenciales incorrectas.");
+
       }
     } catch (error) {
       setMensaje("Error al verificar las credenciales.");
-    }
-  };
-
-  const obtenerNombreCliente = async (idCliente) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/obtener-nombre-cliente?idCliente=${idCliente}`
-      );
-      console.log(response);
-      return response.data.nombreCliente;
-    } catch (error) {
-      console.log("Error al obtener el nombre del cliente:", error);
-      return "Nombre no disponible";
     }
   };
 
@@ -131,13 +116,11 @@ const Log = () => {
     setCuit(event.target.value);
   };
 
-
   // Función para cerrar el modal
   const handleCloseModal = () => {
     setShowModal(false);
     window.location.reload();
   };
-
 
   return (
     <div className="cont-search">
@@ -153,7 +136,6 @@ const Log = () => {
           <div className="form-information">
             <div className="form-information-childs">
               <h2>Iniciar Sesión</h2>
-
               <form className="form" onSubmit={handleLogin}>
                 <label>
                   <i className="bx bx-building"></i>
@@ -167,7 +149,6 @@ const Log = () => {
                 </label>
                 <label>
                   <i className="bx bx-lock-alt"></i>
-
                   <input
                     type="password"
                     value={password}
@@ -177,7 +158,6 @@ const Log = () => {
                   />
                 </label>
                 <button type="submit">Iniciar Sesion</button>
-
               </form>
             </div>
           </div>
@@ -238,7 +218,6 @@ const Log = () => {
           </div>
         </div>
       </div>
-
       {/* Modal de registro exitoso */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -251,7 +230,6 @@ const Log = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   );
 };

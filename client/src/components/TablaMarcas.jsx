@@ -57,7 +57,12 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
-  const nombreCliente = location.state?.nombreCliente;
+
+  let nombreCliente = "Cliente no definido";
+  if (location.state) {
+    nombreCliente = location.state.nombreCliente;
+  }
+
   console.log(nombreCliente);
 
   const renderHeader = () => {
@@ -128,7 +133,6 @@ const TablaMarcas = () => {
             "nombre",
             "acta",
             "resolucion",
-
             "CLASE",
             "FEC_VTO",
             "FVTODU",
@@ -146,7 +150,6 @@ const TablaMarcas = () => {
           />
 
           <Column
-
             field="nombre"
             header="MARCA"
             style={{ minWidth: "400px" }}
@@ -160,7 +163,6 @@ const TablaMarcas = () => {
             header="NRESO"
             style={{ minWidth: "200px" }}
           />
-
           <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
           <Column
             field="FEC_VTO"

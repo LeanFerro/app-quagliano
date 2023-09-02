@@ -10,7 +10,9 @@ DROP TABLE IF EXISTS usuarios; CREATE TABLE usuarios (
   id_cliente bigint NOT NULL,
   fecha_creacion datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id_usuario),
-  FOREIGN KEY (id_cliente)
+
+  FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+
 );
 
 DROP TABLE IF EXISTS clientes; CREATE TABLE clientes (
