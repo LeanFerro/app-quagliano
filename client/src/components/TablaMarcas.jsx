@@ -15,6 +15,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "./img/1boletin.jpg";
 
 const TablaMarcas = () => {
+  
+  const [nombres, setNombres] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
@@ -30,19 +32,25 @@ const TablaMarcas = () => {
 
   const location = useLocation();
 
+  let nombreCliente = "Cliente no definido";
+  if (location.state) {
+    nombreCliente = location.state.nombreCliente;
+  }
+
+  const [selectedNombre, setSelectedNombre] = useState(nombreCliente);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/marcas");
+        const response = await axios.get(`http://localhost:8080/marcas?nombreCliente=${selectedNombre}`); 
         setMarcas(response.data);
       } catch (error) {
-        // Manejar errores de la petición
         console.error(error);
       }
     };
-
+  
     fetchData();
-  }, []);
+  }, [selectedNombre]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -57,19 +65,32 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
+ 
 
-  let nombreCliente = "Cliente no definido";
-  if (location.state) {
-    nombreCliente = location.state.nombreCliente;
-  }
+  useEffect(() => {
+    const fetchNombres = async () => {
+      if (selectedNombre === "Votionis S.A.") {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/nombres?nombreCliente=${selectedNombre}`
+          );
+          setNombres(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+  
+    fetchNombres();
+  }, [selectedNombre]);
 
-  console.log(nombreCliente);
+
 
   const renderHeader = () => {
     return (
       <div>
         <div className="titulo">
-          <h1 className="nomb-emp">{nombreCliente}</h1>
+          <h1 className="nomb-emp">{selectedNombre}</h1>
         </div>
         <div className="header">
           <div className="flex justify-content-end ">
@@ -91,15 +112,15 @@ const TablaMarcas = () => {
           </div>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Votionis S.A
+              Seleccionar Empresa
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">
-                Ideas del Sur S.A.
-              </Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Telepiu S.A.</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">DH COM</Dropdown.Item>
+            {Array.isArray(nombres) && nombres.map((nombre, index) => (
+              <Dropdown.Item key={index} onClick={() => setSelectedNombre(nombre.nombre)}>
+              {nombre.nombre}
+            </Dropdown.Item>
+            ))}
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -129,7 +150,6 @@ const TablaMarcas = () => {
           dataKey="id"
           header={header}
           globalFilterFields={[
-
             "nombre",
             "acta",
             "resolucion",

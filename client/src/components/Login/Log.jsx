@@ -11,9 +11,9 @@ const Log = () => {
   const [cuit, setCuit] = useState("");
   const [nombreCliente, setNombreCliente] = useState("");
   const [mensaje, setMensaje] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       // Aquí realizas la llamada a tu API para verificar el CUIT en la tabla clientes.
       console.log("Verificando CUIT:", cuit);
@@ -33,7 +33,6 @@ const Log = () => {
           console.log("Verificando id cliente:", response.data.id_cliente);
           // Ahora puedes realizar la llamada a tu API de registro.
           await axios.post("http://localhost:8080/signup", {
-
             idCliente,
             password,
             correo,
@@ -66,7 +65,6 @@ const Log = () => {
       // Aquí realizas la llamada a tu API para verificar los datos de inicio de sesión.
       console.log("Cuit y contraseña:", cuit, password);
       const response = await axios.post("http://localhost:8080/login", {
-
         cuit,
         password,
       });
@@ -79,7 +77,6 @@ const Log = () => {
         navigate("/marcas", { state: { nombreCliente } });
       } else {
         console.log("Credenciales incorrectas.");
-
       }
     } catch (error) {
       setMensaje("Error al verificar las credenciales.");
