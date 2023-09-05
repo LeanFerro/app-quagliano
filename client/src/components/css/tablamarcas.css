@@ -63,6 +63,8 @@ th{
 
   .nomb-emp{
     margin: auto;
+    color: rgb(30, 25, 44);
+    font-weight: 600;
   }
 
   .titulo{
