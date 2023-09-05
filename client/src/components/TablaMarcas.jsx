@@ -15,6 +15,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "./img/1boletin.jpg";
 
 const TablaMarcas = () => {
+
   const [nombres, setNombres] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,15 +42,17 @@ const TablaMarcas = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+
         const response = await axios.get(
           `http://localhost:8080/marcas?nombreCliente=${selectedNombre}`
         );
+
         setMarcas(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-
+  
     fetchData();
   }, [selectedNombre]);
 
@@ -66,6 +69,7 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
+
   useEffect(() => {
     const fetchNombres = async () => {
       if (selectedNombre === "Votionis S.A.") {
@@ -80,8 +84,10 @@ const TablaMarcas = () => {
       }
     };
 
+
     fetchNombres();
   }, [selectedNombre]);
+
 
   const renderHeader = () => {
     return (
@@ -113,6 +119,7 @@ const TablaMarcas = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
+
               {Array.isArray(nombres) &&
                 nombres.map((nombre, index) => (
                   <Dropdown.Item
@@ -122,6 +129,7 @@ const TablaMarcas = () => {
                     {nombre.nombre}
                   </Dropdown.Item>
                 ))}
+
             </Dropdown.Menu>
           </Dropdown>
         </div>
