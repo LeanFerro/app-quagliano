@@ -17,12 +17,11 @@ app.get("/", (req, res) => {
 app.post("/signup", (req, res) => {
   const correo = req.body.correo;
   const secreto = req.body.password;
-
   const cuit = req.body.cuit;
   const id_cliente = req.body.idCliente;
   //TODO validate cuit. correo
   dbconnection.query(
-    "INSERT INTO usuarios (secreto, correo, cuit, id_cliente) VALUES (?, ?, ?, ?)",
+    "INSERT INTO app.usuarios (secreto, correo, cuit, id_cliente) VALUES (?, ?, ?, ?)",
     [secreto, correo, cuit, id_cliente],
 
     (error, result) => {
@@ -56,6 +55,27 @@ app.get("/verificar-cuit", (req, res) => {
   });
 });
 
+app.get("/nombres", (req, res) => {
+  const nombreCliente = req.query.nombreCliente;
+
+  if (nombreCliente === "Votionis S.A.") {
+    const sqlQuery =
+      "SELECT nombre FROM clientes WHERE aclaracion LIKE '%INDALO%'";
+    dbconnection.query(sqlQuery, (error, results) => {
+      if (error) {
+        console.error("Error al ejecutar la consulta:", error);
+        res
+          .status(500)
+          .send("Error al obtener los nombres de la base de datos.");
+      } else {
+        res.status(200).send(results);
+      }
+    });
+  } else {
+    res.status(200).send([]);
+  }
+});
+
 app.post("/login", (req, res) => {
   const cuit = req.body.cuit;
   const secreto = req.body.password;
@@ -79,12 +99,10 @@ app.post("/login", (req, res) => {
       if (results.length > 0) {
         console.log("Credenciales válidas:", results);
         // Enviar el nombre del cliente junto con el mensaje de éxito
-        res
-          .status(200)
-          .send({
-            message: "Credenciales válidas",
-            nombreCliente: results[0].nombre,
-          });
+        res.status(200).send({
+          message: "Credenciales válidas",
+          nombreCliente: results[0].nombre,
+        });
       } else {
         console.log("Credenciales incorrectas.");
         res.status(401).send("Credenciales incorrectas.");
@@ -92,8 +110,6 @@ app.post("/login", (req, res) => {
     }
   });
 });
-
-//nombre cliente
 
 app.get("/clientes", (req, res) => {
   dbconnection.query("SELECT * FROM CLIENTES", (error, result) => {
@@ -103,7 +119,15 @@ app.get("/clientes", (req, res) => {
 });
 
 app.get("/marcas", (req, res) => {
-  dbconnection.query("SELECT * FROM MARCAS", (error, result) => {
+  const nombreCliente = req.query.nombreCliente;
+  const sqlQuery = `
+    SELECT marcas.* 
+    FROM marcas 
+    INNER JOIN clientes_marcas ON marcas.id_marca = clientes_marcas.id_marca 
+    INNER JOIN clientes ON clientes_marcas.id_cliente = clientes.id_cliente 
+    WHERE clientes.nombre = ?
+  `;
+  dbconnection.query(sqlQuery, [nombreCliente], (error, result) => {
     if (error) return res.json(error);
     else return res.json(result);
   });
