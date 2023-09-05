@@ -3,6 +3,7 @@ import "./log.css";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import chk from "./check.png";
 
 const Log = () => {
   const [showModal, setShowModal] = useState(false);
@@ -216,11 +217,14 @@ const Log = () => {
         </div>
       </div>
       {/* Modal de registro exitoso */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Registro Exitoso</Modal.Title>
         </Modal.Header>
-        <Modal.Body>¡El usuario ha sido registrado con éxito!</Modal.Body>
+        <Modal.Body>
+          <img src={chk} alt="" className="chk" />
+          ¡El usuario ha sido registrado con éxito!
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Cerrar

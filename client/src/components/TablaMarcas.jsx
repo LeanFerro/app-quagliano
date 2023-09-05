@@ -15,7 +15,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "./img/1boletin.jpg";
 
 const TablaMarcas = () => {
-  
+
   const [nombres, setNombres] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,9 +25,9 @@ const TablaMarcas = () => {
     nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
     acta: { value: null, matchMode: FilterMatchMode.CONTAINS },
     resolucion: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    CLASE: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    FEC_VTO: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    FVTODU: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    clase: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    vencimiento: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    vencimiento_du: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
   const location = useLocation();
@@ -42,7 +42,11 @@ const TablaMarcas = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/marcas?nombreCliente=${selectedNombre}`); 
+
+        const response = await axios.get(
+          `http://localhost:8080/marcas?nombreCliente=${selectedNombre}`
+        );
+
         setMarcas(response.data);
       } catch (error) {
         console.error(error);
@@ -65,7 +69,6 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
- 
 
   useEffect(() => {
     const fetchNombres = async () => {
@@ -80,10 +83,10 @@ const TablaMarcas = () => {
         }
       }
     };
-  
+
+
     fetchNombres();
   }, [selectedNombre]);
-
 
 
   const renderHeader = () => {
@@ -116,11 +119,17 @@ const TablaMarcas = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-            {Array.isArray(nombres) && nombres.map((nombre, index) => (
-              <Dropdown.Item key={index} onClick={() => setSelectedNombre(nombre.nombre)}>
-              {nombre.nombre}
-            </Dropdown.Item>
-            ))}
+
+              {Array.isArray(nombres) &&
+                nombres.map((nombre, index) => (
+                  <Dropdown.Item
+                    key={index}
+                    onClick={() => setSelectedNombre(nombre.nombre)}
+                  >
+                    {nombre.nombre}
+                  </Dropdown.Item>
+                ))}
+
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -153,9 +162,9 @@ const TablaMarcas = () => {
             "nombre",
             "acta",
             "resolucion",
-            "CLASE",
-            "FEC_VTO",
-            "FVTODU",
+            "clase",
+            "vencimiento",
+            "vencimiento_du",
           ]}
           emptyMessage="No se encontraron resultados"
         >
@@ -177,22 +186,52 @@ const TablaMarcas = () => {
               <span style={{ paddingLeft: "10px" }}>{rowData.nombre}</span>
             )}
           />
-          <Column field="acta" header="ACTA" style={{ minWidth: "200px" }} />
+          <Column field="acta" header="ACTA" style={{ minWidth: "100px" }} />
           <Column
             field="resolucion"
-            header="NRESO"
-            style={{ minWidth: "200px" }}
-          />
-          <Column field="CLASE" header="CLASE" style={{ minWidth: "100px" }} />
-          <Column
-            field="FEC_VTO"
-            header="FEC_VTO"
-            style={{ minWidth: "200px" }}
+            header="RESOLUCION"
+            style={{ minWidth: "100px" }}
+            body={(rowData) => (
+              <div style={{ marginLeft: "20px" }}>{rowData.resolucion}</div>
+            )}
           />
           <Column
-            field="FVTODU"
-            header="FVTODU"
-            style={{ minWidth: "200px" }}
+            field="clase"
+            header="CLASE"
+            style={{ minWidth: "80px", paddingLeft: "5px" }}
+            body={(rowData) => (
+              <div style={{ marginLeft: "20px" }}>{rowData.clase}</div>
+            )}
+          />
+          <Column
+            field="vencimiento"
+            header="VTO MARCA"
+            style={{ minWidth: "100px", paddingLeft: "5px" }}
+            body={(rowData) => {
+              const fechaVencimiento = new Date(rowData.vencimiento);
+              const dia = fechaVencimiento.getDate();
+              const mes = fechaVencimiento.getMonth() + 1;
+              const año = fechaVencimiento.getFullYear();
+              const fechaFormateada = `${dia < 10 ? "0" : ""}${dia}-${
+                mes < 10 ? "0" : ""
+              }${mes}-${año}`;
+              return <span>{fechaFormateada}</span>;
+            }}
+          />
+          <Column
+            field="vencimiento_du"
+            header="VTO DU"
+            style={{ minWidth: "100px", paddingLeft: "5px" }}
+            body={(rowData) => {
+              const fechaVencimiento = new Date(rowData.vencimiento_du);
+              const dia = fechaVencimiento.getDate();
+              const mes = fechaVencimiento.getMonth() + 1;
+              const año = fechaVencimiento.getFullYear();
+              const fechaFormateada = `${dia < 10 ? "0" : ""}${dia}-${
+                mes < 10 ? "0" : ""
+              }${mes}-${año}`;
+              return <span>{fechaFormateada}</span>;
+            }}
           />
         </DataTable>
       </div>
