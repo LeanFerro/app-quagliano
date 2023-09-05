@@ -63,6 +63,8 @@ th{
 
   .nomb-emp{
     margin: auto;
+    color: rgb(30, 25, 44);
+    font-weight: 600;
   }
 
   .titulo{
@@ -86,7 +88,20 @@ th{
     color: beige !important;
 }
 
+.btn-success {
+  --bs-btn-bg: rgb(30, 25, 44) !important;
+  --bs-btn-border-color: rgb(30, 25, 44) !important;
+  --bs-btn-hover-bg: rgb(30, 25, 44) !important;
+  --bs-btn-hover-border-color: rgb(30, 25, 44) !important;
+  --bs-btn-active-bg: rgb(30, 25, 44) !important;
+  --bs-btn-active-border-color: rgb(30, 25, 44) !important;
+  --bs-btn-disabled-bg: rgb(30, 25, 44) !important;
+  --bs-btn-disabled-border-color: rgb(30, 25, 44) !important;
+}
 
+.dropdown-menu {
+  --bs-dropdown-link-hover-bg: rgb(176, 171, 197)!important;
+}
 
 
   .p-datatable {

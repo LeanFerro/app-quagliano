@@ -75,7 +75,7 @@ const BarraNav = () => {
             </Nav>
             <Nav>
               <Button variant="outline-light">
-                <Nav as={Link} to="/login" className="log-btn">
+                <Nav as={Link} to="/log" className="log-btn">
                   Salir
                 </Nav>
               </Button>
