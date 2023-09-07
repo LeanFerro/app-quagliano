@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Nav, Navbar, NavLink, Button } from "react-bootstrap";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Container, Nav, Navbar, Button } from "react-bootstrap";
+import { Outlet, Link } from "react-router-dom";
 import "./css/navbar.css";
 import logo from "./img/logo2.png";
 import qLogo from "./img/LG.png";
 
 const BarraNav = () => {
-  const location = useLocation();
-
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -21,10 +19,6 @@ const BarraNav = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const isLinkActive = (pathname) => {
-    return pathname === location.pathname ? "active" : "";
-  };
 
   return (
     <div>
@@ -59,21 +53,7 @@ const BarraNav = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="ms-auto">
-              <ul className="navbar-nav">
-                <li className={`nav-item ${isLinkActive("/marcas")}`}>
-                  <NavLink as={Link} to="/marcas" className="nav-link">
-                    Marcas
-                  </NavLink>
-                </li>
-                <li className={`nav-item ${isLinkActive("/clientes")}`}>
-                  <Nav.Link as={Link} to="/clientes" className="nav-link">
-                    Clientes
-                  </Nav.Link>
-                </li>
-              </ul>
-            </Nav>
-            <Nav>
+            <Nav className="ml-auto">
               <Button variant="outline-light">
                 <Nav as={Link} to="/log" className="log-btn">
                   Salir
@@ -83,7 +63,6 @@ const BarraNav = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
       <section>
         <Outlet></Outlet>
       </section>

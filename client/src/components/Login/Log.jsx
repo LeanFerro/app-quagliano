@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./log.css";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, NavLink } from "react-bootstrap";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import chk from "./check.png";
 
 const Log = () => {
@@ -158,6 +158,11 @@ const Log = () => {
                 <button type="submit">Iniciar Sesion</button>
               </form>
             </div>
+            <div className="cont-olvido">
+              <NavLink as={Link} to="/olvido" className="olvido">
+                Olvido su contraseña?
+              </NavLink>
+            </div>
           </div>
         </div>
 
@@ -209,7 +214,6 @@ const Log = () => {
                     required
                   />
                 </label>
-
                 <button type="submit">Registrarse</button>
               </form>
             </div>
