@@ -1,0 +1,39 @@
+.form-information-forgot{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
+    height: 350px;
+    text-align: center;
+    background-color: rgb(176, 171, 197);
+    border-radius: 20px;
+    box-shadow: 0 5px 7px rgba(0, 0, 0, .2);
+}
+
+.container-form-forgot{
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    border-radius: 20px;
+    transition: all 1s ease;
+    margin: 10px;
+}
+
+.btn-forgot{
+    margin-top: 20px !important;
+    width: 100px;
+}
+
+
+@media screen and (max-width:580px) {
+    
+    .form-information-forgot{
+        width: 90%;
+        height: 350px;
+    }
+
+    .container-form-forgot{
+        margin: 0;
+    }
+
+}

@@ -7,6 +7,15 @@
     
 }
 
+.cont-search{
+    width: 100% ;
+    height: 100% ;
+    align-items: center;
+    justify-content: center;
+    padding-top: 90px;
+    
+  }
+
 .formbody {
     width: 100%;
     height: 100%;
@@ -78,6 +87,7 @@
     background-color: rgb(176, 171, 197);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    flex-direction: column;
 }
 
 .form-information-childs {
@@ -152,7 +162,7 @@
 
 @media screen and (max-width:750px) {
     .formbody {
-        font-size: 12px;
+        font-size: 14px;
     }  
 
     .info-childs h2 {
@@ -166,7 +176,7 @@
 
 @media screen and (max-width:580px) {
     .formbody {
-        font-size: 10px;
+        font-size: 14px;
     }  
 
 
@@ -224,3 +234,15 @@
     font-weight: 500;
 }
 
+.olvido {
+    
+    font-size: .8rem !important;
+    color: blue !important;
+    text-decoration: underline !important;
+}
+
+.cont-olvido{
+    margin-top: 40px;
+    width: 100%;
+    
+}

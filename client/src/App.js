@@ -1,11 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import BarraNav from "./components/BarraNav";
-import TablaClientes from "./components/TablaClientes";
 import TablaMarcas from "./components/TablaMarcas";
-import Login from "./components/Login";
-import Home from "./components/Home";
 import Log from "./components/Login/Log";
+import Forgot from "./components/Recupero/Forgot";
+import Reset from "./components/Recupero/Reset";
 
 function App() {
   return (
@@ -13,11 +12,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<BarraNav />}>
-            <Route index element={<Home />} />
+            <Route index element={<Log />} />
             <Route path="marcas" element={<TablaMarcas />} />
-            <Route path="clientes" element={<TablaClientes />} />
-            <Route path="login" element={<Login />} />
+            <Route path="olvido" element={<Forgot />} />
             <Route path="log" element={<Log />} />
+            <Route path="reset" element={<Reset />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Route>
         </Routes>
