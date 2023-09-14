@@ -11,12 +11,12 @@ const Log = () => {
   const [password, setPassword] = useState("");
   const [cuit, setCuit] = useState("");
   const [nombreCliente, setNombreCliente] = useState("");
+  const [nombresClientes, setNombresClientes] = useState("");
   const [mensaje, setMensaje] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Aquí realizas la llamada a tu API para verificar el CUIT en la tabla clientes.
       console.log("Verificando CUIT:", cuit);
       const response = await axios.get(
         `http://localhost:8080/verificar-cuit?cuit=${cuit}`
@@ -63,7 +63,6 @@ const Log = () => {
     event.preventDefault();
 
     try {
-      // Aquí realizas la llamada a tu API para verificar los datos de inicio de sesión.
       console.log("Cuit y contraseña:", cuit, password);
       const response = await axios.post("http://localhost:8080/login", {
         cuit,
@@ -74,8 +73,13 @@ const Log = () => {
         console.log("Credenciales válidas:", response.data);
         // Obtiene el nombre del cliente
         const nombreCliente = response.data.nombreCliente;
+        setNombreCliente(nombreCliente);
+        // Obtiene el nombres del clientes
+        const indaloClientes = response.data.nombresClientes;
+        setNombresClientes(nombresClientes);
+
         // Redirige al componente deseado
-        navigate("/marcas", { state: { nombreCliente } });
+        navigate("/marcas", { state: { nombreCliente, indaloClientes } });
       } else {
         console.log("Credenciales incorrectas.");
       }

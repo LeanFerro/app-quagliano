@@ -15,8 +15,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "./img/1boletin.jpg";
 
 const TablaMarcas = () => {
-
-  const [nombres, setNombres] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
@@ -31,20 +29,20 @@ const TablaMarcas = () => {
   });
 
   const location = useLocation();
+  const [nombreCliente, setNombreCliente] = useState(
+    location.state ? location.state.nombreCliente : "Cliente no definido"
+  );
+  const [indaloClientes] = useState(
+    location.state ? location.state.indaloClientes : []
+  );
 
-  let nombreCliente = "Cliente no definido";
-  if (location.state) {
-    nombreCliente = location.state.nombreCliente;
-  }
-
-  const [selectedNombre, setSelectedNombre] = useState(nombreCliente);
+  console.log("Linea 1: ", indaloClientes);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const response = await axios.get(
-          `http://localhost:8080/marcas?nombreCliente=${selectedNombre}`
+          `http://localhost:8080/marcas?nombreCliente=${nombreCliente}`
         );
 
         setMarcas(response.data);
@@ -52,9 +50,9 @@ const TablaMarcas = () => {
         console.error(error);
       }
     };
-  
+
     fetchData();
-  }, [selectedNombre]);
+  }, [nombreCliente]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -69,34 +67,14 @@ const TablaMarcas = () => {
     }));
   }, [location.search]);
 
-
-  useEffect(() => {
-    const fetchNombres = async () => {
-      if (selectedNombre === "Votionis S.A.") {
-        try {
-          const response = await axios.get(
-            `http://localhost:8080/nombres?nombreCliente=${selectedNombre}`
-          );
-          setNombres(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-
-
-    fetchNombres();
-  }, [selectedNombre]);
-
-
   const renderHeader = () => {
     return (
       <div>
         <div className="titulo">
-          <h1 className="nomb-emp">{selectedNombre}</h1>
+          <h1 className="nomb-emp">{nombreCliente}</h1>
         </div>
         <div className="header">
-          <div className="flex justify-content-end ">
+          <div className="flex justify-content-end start" id="start">
             <span className="p-input-icon-left">
               <i className="pi pi-search" />
               <InputText
@@ -115,21 +93,19 @@ const TablaMarcas = () => {
           </div>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Seleccionar Empresa
+              {nombreCliente}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-
-              {Array.isArray(nombres) &&
-                nombres.map((nombre, index) => (
+              {Array.isArray(indaloClientes) &&
+                indaloClientes.map((nombre, index) => (
                   <Dropdown.Item
                     key={index}
-                    onClick={() => setSelectedNombre(nombre.nombre)}
+                    onClick={() => setNombreCliente(nombre)}
                   >
-                    {nombre.nombre}
+                    {nombre}
                   </Dropdown.Item>
                 ))}
-
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -177,7 +153,6 @@ const TablaMarcas = () => {
               />
             )}
           />
-
           <Column
             field="nombre"
             header="MARCA"
@@ -206,7 +181,7 @@ const TablaMarcas = () => {
           <Column
             field="vencimiento"
             header="VTO MARCA"
-            style={{ minWidth: "100px", paddingLeft: "5px" }}
+            style={{ minWidth: "125px", paddingLeft: "5px" }}
             body={(rowData) => {
               const fechaVencimiento = new Date(rowData.vencimiento);
               const dia = fechaVencimiento.getDate();
@@ -221,7 +196,7 @@ const TablaMarcas = () => {
           <Column
             field="vencimiento_du"
             header="VTO DU"
-            style={{ minWidth: "100px", paddingLeft: "5px" }}
+            style={{ minWidth: "125px", paddingLeft: "5px" }}
             body={(rowData) => {
               const fechaVencimiento = new Date(rowData.vencimiento_du);
               const dia = fechaVencimiento.getDate();

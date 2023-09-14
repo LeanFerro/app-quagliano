@@ -55,39 +55,26 @@ app.get("/verificar-cuit", (req, res) => {
   });
 });
 
-app.get("/nombres", (req, res) => {
-  const nombreCliente = req.query.nombreCliente;
+const pepe = (cuit, results) => {
+  for (let i = 0; i < results.length; i++) {
+    if (results[i].cuit == cuit) return results[i].nombre;
 
-  if (nombreCliente === "Votionis S.A.") {
-    const sqlQuery =
-      "SELECT nombre FROM clientes WHERE aclaracion LIKE '%INDALO%'";
-    dbconnection.query(sqlQuery, (error, results) => {
-      if (error) {
-        console.error("Error al ejecutar la consulta:", error);
-        res
-          .status(500)
-          .send("Error al obtener los nombres de la base de datos.");
-      } else {
-        res.status(200).send(results);
-      }
-    });
-  } else {
-    res.status(200).send([]);
+    console.log(results[i].nombre);
   }
-});
+};
 
 app.post("/login", (req, res) => {
   const cuit = req.body.cuit;
   const secreto = req.body.password;
 
-  console.log("Cuit y contraseña:", cuit, secreto);
-
-  // Realiza la consulta SQL para verificar las credenciales en la base de datos
   const sqlQuery = `
-    SELECT usuarios.*, clientes.nombre 
+    SELECT nombre, cuit FROM clientes WHERE aclaracion LIKE
+    concat(
+    (SELECT SUBSTRING(clientes.aclaracion, 1, 6)
     FROM usuarios 
     INNER JOIN clientes ON usuarios.id_cliente = clientes.id_cliente 
-    WHERE usuarios.cuit = ? AND usuarios.secreto = ?
+    WHERE usuarios.cuit = ? AND usuarios.secreto = ?), "%") ;
+    
   `;
   dbconnection.query(sqlQuery, [cuit, secreto], (error, results) => {
     if (error) {
@@ -98,10 +85,15 @@ app.post("/login", (req, res) => {
     } else {
       if (results.length > 0) {
         console.log("Credenciales válidas:", results);
-        // Enviar el nombre del cliente junto con el mensaje de éxito
+        const nombresClientes = results.map((result) => result.nombre);
+        console.log("cuit: ", cuit);
+        console.log(results);
+        const nombreCliente = pepe(cuit, results);
+        console.log("cliente: ", nombreCliente);
         res.status(200).send({
           message: "Credenciales válidas",
-          nombreCliente: results[0].nombre,
+          nombresClientes,
+          nombreCliente,
         });
       } else {
         console.log("Credenciales incorrectas.");
