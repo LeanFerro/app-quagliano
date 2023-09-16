@@ -13,9 +13,26 @@ const Log = () => {
   const [nombreCliente, setNombreCliente] = useState("");
   const [nombresClientes, setNombresClientes] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [errorMensaje, setErrorMensaje] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (cuit.length !== 11 || !/^\d+$/.test(cuit)) {
+      setMensaje("El CUIT debe contener 11 números válidos.");
+      return;
+    }
+
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(correo)) {
+      setMensaje("El correo electrónico ingresado no es válido.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setMensaje("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+
     try {
       console.log("Verificando CUIT:", cuit);
       const response = await axios.get(
@@ -63,14 +80,12 @@ const Log = () => {
     event.preventDefault();
 
     try {
-      console.log("Cuit y contraseña:", cuit, password);
       const response = await axios.post("http://localhost:8080/login", {
         cuit,
         password,
       });
 
       if (response.status === 200) {
-        console.log("Credenciales válidas:", response.data);
         // Obtiene el nombre del cliente
         const nombreCliente = response.data.nombreCliente;
         setNombreCliente(nombreCliente);
@@ -82,9 +97,11 @@ const Log = () => {
         navigate("/marcas", { state: { nombreCliente, indaloClientes } });
       } else {
         console.log("Credenciales incorrectas.");
+        setErrorMensaje("Las credenciales ingresadas no son válidas.");
       }
     } catch (error) {
       setMensaje("Error al verificar las credenciales.");
+      setErrorMensaje("Error al verificar las credenciales.");
     }
   };
 
@@ -116,6 +133,8 @@ const Log = () => {
 
   const handleCUITChange = (event) => {
     setCuit(event.target.value);
+    const inputValue = event.target.value.replace(/\D/g, "");
+    setCuit(inputValue);
   };
 
   // Función para cerrar el modal
@@ -142,7 +161,7 @@ const Log = () => {
                 <label>
                   <i className="bx bx-building"></i>
                   <input
-                    type="text"
+                    type="number"
                     value={cuit}
                     onChange={(e) => setCuit(e.target.value)}
                     placeholder="CUIT"
@@ -159,6 +178,7 @@ const Log = () => {
                     required
                   />
                 </label>
+                <p>{errorMensaje}</p>
                 <button type="submit">Iniciar Sesion</button>
               </form>
             </div>
@@ -188,14 +208,13 @@ const Log = () => {
                   <i className="bx bx-building"></i>
                   <input
                     id="cuit"
-                    type="text"
+                    type="number"
                     value={cuit}
                     onChange={handleCUITChange}
                     placeholder="CUIT"
                   />
                 </label>
-                <h3>{nombreCliente}</h3>
-                <p>{mensaje}</p>
+
                 <label htmlFor="username">
                   <i className="bx bx-envelope"></i>
                   <input
@@ -218,6 +237,7 @@ const Log = () => {
                     required
                   />
                 </label>
+                <p>{mensaje}</p>
                 <button type="submit">Registrarse</button>
               </form>
             </div>
@@ -231,6 +251,7 @@ const Log = () => {
         </Modal.Header>
         <Modal.Body>
           <img src={chk} alt="" className="chk" />
+          <h4>{nombreCliente}</h4>
           ¡El usuario ha sido registrado con éxito!
         </Modal.Body>
         <Modal.Footer>

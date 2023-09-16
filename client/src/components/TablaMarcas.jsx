@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
@@ -36,21 +36,17 @@ const TablaMarcas = () => {
     location.state ? location.state.indaloClientes : []
   );
 
-  console.log("Linea 1: ", indaloClientes);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `http://localhost:8080/marcas?nombreCliente=${nombreCliente}`
         );
-
         setMarcas(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchData();
   }, [nombreCliente]);
 
@@ -93,7 +89,7 @@ const TablaMarcas = () => {
           </div>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
-              {nombreCliente}
+              Elegir empresa
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -112,15 +108,25 @@ const TablaMarcas = () => {
       </div>
     );
   };
-  const header = renderHeader();
 
-  const handleRowClick = (rowData) => {
+  const header = renderHeader();
+  const handleRowClick = useCallback((rowData) => {
     setSelectedRow(rowData);
     setModalVisible(true);
-  };
-
-  const hideModal = () => {
+  }, []);
+  const hideModal = useCallback(() => {
     setModalVisible(false);
+  }, []);
+
+  const tiempo = (rowData) => {
+    const fechaVencimiento = new Date(rowData.vencimiento_du);
+    const dia = fechaVencimiento.getDate();
+    const mes = fechaVencimiento.getMonth() + 1;
+    const año = fechaVencimiento.getFullYear();
+    const fechaFormateada = `${dia < 10 ? "0" : ""}${dia}-${
+      mes < 10 ? "0" : ""
+    }${mes}-${año}`;
+    return <span>{fechaFormateada}</span>;
   };
 
   return (
@@ -182,31 +188,13 @@ const TablaMarcas = () => {
             field="vencimiento"
             header="VTO MARCA"
             style={{ minWidth: "125px", paddingLeft: "5px" }}
-            body={(rowData) => {
-              const fechaVencimiento = new Date(rowData.vencimiento);
-              const dia = fechaVencimiento.getDate();
-              const mes = fechaVencimiento.getMonth() + 1;
-              const año = fechaVencimiento.getFullYear();
-              const fechaFormateada = `${dia < 10 ? "0" : ""}${dia}-${
-                mes < 10 ? "0" : ""
-              }${mes}-${año}`;
-              return <span>{fechaFormateada}</span>;
-            }}
+            body={tiempo}
           />
           <Column
             field="vencimiento_du"
             header="VTO DU"
             style={{ minWidth: "125px", paddingLeft: "5px" }}
-            body={(rowData) => {
-              const fechaVencimiento = new Date(rowData.vencimiento_du);
-              const dia = fechaVencimiento.getDate();
-              const mes = fechaVencimiento.getMonth() + 1;
-              const año = fechaVencimiento.getFullYear();
-              const fechaFormateada = `${dia < 10 ? "0" : ""}${dia}-${
-                mes < 10 ? "0" : ""
-              }${mes}-${año}`;
-              return <span>{fechaFormateada}</span>;
-            }}
+            body={tiempo}
           />
         </DataTable>
       </div>
