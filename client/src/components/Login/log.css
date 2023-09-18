@@ -41,9 +41,10 @@
     display: flex;
     align-items: center;
     text-align: center;
-    background-color: rgb(36, 28, 68);
+    background-color: rgb(45, 41, 88);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    border-right: solid 2px rgb(215, 94, 85);
 }
 
 .info-childs {
@@ -53,27 +54,26 @@
 
 .info-childs h2 {
     font-size: 2.5rem;
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
 
 .info-childs p {
     margin: 20px 0;
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
 
 .info-childs input {
-    background-color: transparent;
-    outline: none;
-    border: solid 2px #9191bd;
+    background-color: rgb(215, 94, 85);
+    outline: none;;
     border-radius: 25px;
     padding: 10px 20px;
-    color: #9191bd;
+    color: rgb(255, 255, 255);
     cursor: pointer;
-    transition: background-color .3s ease;
+
 }
 
 .info-childs input:hover {
-    background-color: #9191bd;
+    background-color:  rgb(51, 93, 152);
     color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
 }
@@ -84,7 +84,7 @@
     justify-content: center;
     width: 60%;
     text-align: center;
-    background-color: rgb(176, 171, 197);
+    background-color: rgb(45, 41, 88);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     flex-direction: column;
@@ -95,7 +95,7 @@
 }
 
 .form-information-childs h2 {
-    color: #333;
+    color: #ffffff;
     font-size: 2rem;
 }
 
@@ -136,8 +136,8 @@
 }
 
 .form button {
-    background-color: rgb(36, 28, 68);
-    color: #fff;
+    background-color:  rgb(215, 94, 85);
+    color: rgb(255, 255, 255);
     border-radius: 20px;
     border: none;
     padding: 10px 15px;
@@ -147,7 +147,8 @@
 }
 
 .form Button:hover {
-    background-color: #9191bd;
+    background-color: rgb(51, 93, 152);
+    color: white;
 }
 
 .hide {
@@ -180,26 +181,32 @@
     }  
 
 
-.container-form {
+    .container-form {
     flex-direction: column;
     height: auto;
-}
+    }
 
-.information {
-    width: 100%;
-    padding: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 0;
-}
+    .information {
+        border-right: none;
+        border-bottom: solid 2px rgb(215, 94, 85);
+    }
 
-.form-information {
-    width: 100%;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-    padding: 25px 0;
- }
+
+    .information {
+        width: 100%;
+        padding: 20px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-information {
+        width: 100%;
+        border-bottom-left-radius: 20px;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        padding: 25px 0;
+    }
 
 }
 
@@ -237,8 +244,12 @@
 .olvido {
     
     font-size: .8rem !important;
-    color: blue !important;
+    color: rgb(255, 255, 255) !important;
     text-decoration: underline !important;
+}
+
+.olvido:hover {
+    color: rgb(215, 94, 85) !important;
 }
 
 .cont-olvido{

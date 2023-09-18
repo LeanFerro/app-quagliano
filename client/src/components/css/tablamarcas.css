@@ -3,8 +3,8 @@
 
 td {
     padding: 5px !important;
-    color: rgb(0, 0, 0); 
-    border-bottom: 1px solid rgb(83, 61, 61) !important;
+    color: rgb(228,225,238); 
+    border-bottom: 1px solid rgb(215,169,170) !important;
 }
 
 th{
@@ -105,5 +105,23 @@ th{
   }
 
   
-
+  @media (max-width: 768px) {
+    .header {
+      display: flex;
+      flex-direction: column-reverse; 
+      text-align: center;
+      margin: auto;
+    }
+  
+    .header .p-input-icon-left {
+      margin-top: 10px;
+      
+    }
+    
+    #start {
+      justify-content: flex-start !important;
+    }
+   
+  
+  }
 
