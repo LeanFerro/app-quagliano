@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Outlet, Link } from "react-router-dom";
 import "./css/navbar.css";
-import logo from "./img/logo2.png";
+import logo from "./img/logo_blanco.png";
 import qLogo from "./img/LG.png";
+import linea from "./img/linea.jpg";
 
 const BarraNav = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -48,13 +49,16 @@ const BarraNav = () => {
             </Navbar.Brand>
           )}
           <Navbar.Text>
-            <h4>Bienvenido al portal clientes</h4>
+            <h4 className="titulo-centrado">Bienvenido al portal clientes</h4>
           </Navbar.Text>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-          <Navbar.Collapse id="responsive-navbar-nav">
+          <Navbar.Collapse
+            id="responsive-navbar-nav"
+            className="collapse-custom"
+          >
             <Nav className="ml-auto">
-              <Button variant="outline-light">
+              <Button variant="outline-light" className="btn-h">
                 <Nav as={Link} to="/log" className="log-btn">
                   Salir
                 </Nav>
@@ -63,6 +67,9 @@ const BarraNav = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div className="cont-linea">
+        <img src={linea} alt="linea" className="img-linea" />
+      </div>
       <section>
         <Outlet></Outlet>
       </section>
