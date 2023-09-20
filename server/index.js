@@ -4,6 +4,7 @@ const cors = require("cors");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const dbconnection = require("./database");
+const bcrypt = require("bcryptjs");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -19,16 +20,30 @@ app.post("/signup", (req, res) => {
   const secreto = req.body.password;
   const cuit = req.body.cuit;
   const id_cliente = req.body.idCliente;
-  //TODO validate cuit. correo
-  dbconnection.query(
-    "INSERT INTO app.usuarios (secreto, correo, cuit, id_cliente) VALUES (?, ?, ?, ?)",
-    [secreto, correo, cuit, id_cliente],
 
-    (error, result) => {
-      if (error) console.log(error);
-      else res.send({ correo: correo });
-    }
-  );
+  // Generar el hash de la contraseña utilizando bcryptjs
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(secreto, salt, (err, hash) => {
+      if (err) {
+        console.error("Error al generar el hash de la contraseña:", err);
+        res.status(500).send("Error al registrar el usuario.");
+      } else {
+        // Guardar el usuario en la base de datos con la contraseña hasheada
+        dbconnection.query(
+          "INSERT INTO app.usuarios (secreto, correo, cuit, id_cliente) VALUES (?, ?, ?, ?)",
+          [hash, correo, cuit, id_cliente],
+          (error, result) => {
+            if (error) {
+              console.error("Error al ejecutar la consulta:", error);
+              res.status(500).send("Error al registrar el usuario.");
+            } else {
+              res.send({ correo: correo });
+            }
+          }
+        );
+      }
+    });
+  });
 });
 
 app.get("/verificar-cuit", (req, res) => {
@@ -68,15 +83,16 @@ app.post("/login", (req, res) => {
   const secreto = req.body.password;
 
   const sqlQuery = `
-    SELECT nombre, cuit FROM clientes WHERE aclaracion LIKE
-    concat(
-    (SELECT SUBSTRING(clientes.aclaracion, 1, 6)
-    FROM usuarios 
-    INNER JOIN clientes ON usuarios.id_cliente = clientes.id_cliente 
-    WHERE usuarios.cuit = ? AND usuarios.secreto = ?), "%") ;
-    
-  `;
-  dbconnection.query(sqlQuery, [cuit, secreto], (error, results) => {
+  SELECT nombre, cuit FROM clientes WHERE aclaracion LIKE
+  concat(
+  (SELECT SUBSTRING(clientes.aclaracion, 1, 6)
+  FROM usuarios 
+  INNER JOIN clientes ON usuarios.id_cliente = clientes.id_cliente 
+  WHERE usuarios.cuit = ? AND usuarios.secreto = ?), "%") ;
+  
+`;
+
+  dbconnection.query(sqlQuery, [cuit], (error, results) => {
     if (error) {
       console.error("Error al ejecutar la consulta:", error);
       res
@@ -84,16 +100,23 @@ app.post("/login", (req, res) => {
         .send("Error al verificar las credenciales en la base de datos.");
     } else {
       if (results.length > 0) {
-        console.log("Credenciales válidas:", results);
-        const nombresClientes = results.map((result) => result.nombre);
-        console.log("cuit: ", cuit);
-        console.log(results);
-        const nombreCliente = pepe(cuit, results);
-        console.log("cliente: ", nombreCliente);
-        res.status(200).send({
-          message: "Credenciales válidas",
-          nombresClientes,
-          nombreCliente,
+        bcrypt.compare(secreto, results[0].secreto, (err, result) => {
+          if (result) {
+            console.log("Credenciales válidas:", results);
+            const nombresClientes = results.map((result) => result.nombre);
+            console.log("cuit: ", cuit);
+            console.log(results);
+            const nombreCliente = pepe(cuit, results);
+            console.log("cliente: ", nombreCliente);
+            res.status(200).send({
+              message: "Credenciales válidas",
+              nombresClientes,
+              nombreCliente,
+            });
+          } else {
+            console.log("Credenciales incorrectas.");
+            res.status(401).send("Credenciales incorrectas.");
+          }
         });
       } else {
         console.log("Credenciales incorrectas.");

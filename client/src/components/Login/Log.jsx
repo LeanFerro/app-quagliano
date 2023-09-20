@@ -28,10 +28,10 @@ const Log = () => {
       return;
     }
 
-    if (password.length < 8) {
-      setMensaje("La contraseña debe tener al menos 8 caracteres.");
-      return;
-    }
+    // if (password.length < 8) {
+    //   setMensaje("La contraseña debe tener al menos 8 caracteres.");
+    //   return;
+    // }
 
     try {
       console.log("Verificando CUIT:", cuit);
