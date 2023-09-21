@@ -83,15 +83,17 @@ app.post("/login", (req, res) => {
   const secreto = req.body.password;
 
   const sqlQuery = `
-  SELECT c.nombre, c.cuit, u.secreto FROM clientes c
-  join usuarios u on c.cuit = u.cuit
+  SELECT c.nombre, c.cuit, u.secreto 
+  FROM clientes c
+  JOIN usuarios u on c.cuit = u.cuit
   WHERE c.aclaracion LIKE
-  concat((SELECT SUBSTRING(clientes.aclaracion, 1, 6)
-  FROM usuarios 
-  INNER JOIN clientes ON usuarios.id_cliente = clientes.id_cliente 
-  WHERE usuarios.cuit = ? ), "%") ;
+    concat(
+      (SELECT SUBSTRING(clientes.aclaracion, 1, 6)
+      FROM clientes 
+      WHERE clientes.cuit = ?) , "%"
+      );
   
-`;
+`; // aclaracion = grupo
 
   dbconnection.query(sqlQuery, [cuit], (error, results) => {
     console.log(secreto);
