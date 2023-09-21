@@ -83,16 +83,18 @@ app.post("/login", (req, res) => {
   const secreto = req.body.password;
 
   const sqlQuery = `
-  SELECT nombre, cuit FROM clientes WHERE aclaracion LIKE
-  concat(
-  (SELECT SUBSTRING(clientes.aclaracion, 1, 6)
+  SELECT c.nombre, c.cuit, u.secreto FROM clientes c
+  join usuarios u on c.cuit = u.cuit
+  WHERE c.aclaracion LIKE
+  concat((SELECT SUBSTRING(clientes.aclaracion, 1, 6)
   FROM usuarios 
   INNER JOIN clientes ON usuarios.id_cliente = clientes.id_cliente 
-  WHERE usuarios.cuit = ? AND usuarios.secreto = ?), "%") ;
+  WHERE usuarios.cuit = 30523641598 ), "%") ;
   
 `;
 
   dbconnection.query(sqlQuery, [cuit], (error, results) => {
+    console.log(secreto);
     if (error) {
       console.error("Error al ejecutar la consulta:", error);
       res
@@ -100,7 +102,10 @@ app.post("/login", (req, res) => {
         .send("Error al verificar las credenciales en la base de datos.");
     } else {
       if (results.length > 0) {
+        console.log(secreto);
+        console.log("Credenciales válidas1:", results);
         bcrypt.compare(secreto, results[0].secreto, (err, result) => {
+          console.log(result);
           if (result) {
             console.log("Credenciales válidas:", results);
             const nombresClientes = results.map((result) => result.nombre);
@@ -114,12 +119,12 @@ app.post("/login", (req, res) => {
               nombreCliente,
             });
           } else {
-            console.log("Credenciales incorrectas.");
+            console.log(" primero Credenciales incorrectas.");
             res.status(401).send("Credenciales incorrectas.");
           }
         });
       } else {
-        console.log("Credenciales incorrectas.");
+        console.log(" segundo Credenciales incorrectas.");
         res.status(401).send("Credenciales incorrectas.");
       }
     }
