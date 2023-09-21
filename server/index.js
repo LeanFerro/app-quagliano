@@ -89,7 +89,7 @@ app.post("/login", (req, res) => {
   concat((SELECT SUBSTRING(clientes.aclaracion, 1, 6)
   FROM usuarios 
   INNER JOIN clientes ON usuarios.id_cliente = clientes.id_cliente 
-  WHERE usuarios.cuit = 30523641598 ), "%") ;
+  WHERE usuarios.cuit = ? ), "%") ;
   
 `;
 
