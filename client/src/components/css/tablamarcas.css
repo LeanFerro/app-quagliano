@@ -33,8 +33,14 @@ th{
     transition: background-color 0.3s ease !important;
     border-bottom: 1px solid rgb(78, 78, 80) !important;
     cursor: pointer; 
+    
   }
-  
+
+  /* .p-datatable-tbody {
+    background-image: url("../img/ggg.png") !important;
+    background-size: cover; 
+  }
+   */
   /* Estilo para la fila en hover */
   .p-datatable .p-datatable-tbody > tr:hover {
     background-color: #392a70 !important; 

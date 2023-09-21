@@ -45,7 +45,9 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     border-right: solid 2px rgb(215, 94, 85);
-   
+    background-image: url("../img/ggg.png");
+    background-size: auto 100%; 
+    background-position: right center;
 }
 
 .info-childs {
