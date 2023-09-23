@@ -14,6 +14,7 @@ const Log = () => {
   const [nombresClientes, setNombresClientes] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [errorMensaje, setErrorMensaje] = useState("");
+  const [token, setToken] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -86,6 +87,11 @@ const Log = () => {
       });
 
       if (response.status === 200) {
+        // Guarda el token en el estado
+        const token = response.data.token;
+        setToken(response.data.token);
+        localStorage.setItem("token", token);
+        console.log(response.data.token);
         // Obtiene el nombre del cliente
         const nombreCliente = response.data.nombreCliente;
         setNombreCliente(nombreCliente);
@@ -250,9 +256,11 @@ const Log = () => {
           <Modal.Title>Registro Exitoso</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={chk} alt="" className="chk" />
-          <h4>{nombreCliente}</h4>
-          ¡El usuario ha sido registrado con éxito!
+          <div className="d-flex align-items-center ">
+            <img src={chk} alt="" className="chk" />
+            <h4 className="nomb-modal">{nombreCliente}</h4>
+          </div>
+          <p className="p-modal">¡El usuario ha sido registrado con éxito!</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

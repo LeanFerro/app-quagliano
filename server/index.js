@@ -5,6 +5,8 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const dbconnection = require("./database");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -96,7 +98,6 @@ app.post("/login", (req, res) => {
 `; // aclaracion = grupo
 
   dbconnection.query(sqlQuery, [cuit], (error, results) => {
-    console.log(secreto);
     if (error) {
       console.error("Error al ejecutar la consulta:", error);
       res
@@ -104,21 +105,21 @@ app.post("/login", (req, res) => {
         .send("Error al verificar las credenciales en la base de datos.");
     } else {
       if (results.length > 0) {
-        console.log(secreto);
-        console.log("Credenciales válidas1:", results);
         bcrypt.compare(secreto, results[0].secreto, (err, result) => {
-          console.log(result);
           if (result) {
-            console.log("Credenciales válidas:", results);
+            console.log(result);
+            const token = jwt.sign({ cuit: cuit }, process.env.JWT_SECRETO, {
+              expiresIn: "1h",
+            });
+            console.log(token);
             const nombresClientes = results.map((result) => result.nombre);
-            console.log("cuit: ", cuit);
-            console.log(results);
             const nombreCliente = pepe(cuit, results);
-            console.log("cliente: ", nombreCliente);
+
             res.status(200).send({
               message: "Credenciales válidas",
               nombresClientes,
               nombreCliente,
+              token: token,
             });
           } else {
             console.log(" primero Credenciales incorrectas.");
@@ -132,6 +133,25 @@ app.post("/login", (req, res) => {
     }
   });
 });
+
+const verifyToken = (req, res, next) => {
+  const accessToken = req.headers["authorization"];
+  if (typeof accessToken !== "undefined") {
+    const bearer = accessToken.split(" ");
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    jwt.verify(bearerToken, process.env.JWT_SECRETO, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        req.authData = authData;
+        next();
+      }
+    });
+  } else {
+    res.sendStatus(403);
+  }
+};
 
 app.get("/clientes", (req, res) => {
   dbconnection.query("SELECT * FROM CLIENTES", (error, result) => {

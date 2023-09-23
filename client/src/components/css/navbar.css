@@ -43,7 +43,7 @@
 
 h4 {
   position: relative;
-  right: 140px;
+  right: 120px;
   color: rgb(255, 255, 255) !important;
   font-size: 34px !important;
   margin: 0 !important;
@@ -64,6 +64,7 @@ button:not(:disabled) {
   color: rgb(45, 41, 88);
   justify-content: center;
   font-weight: 600;
+  
 }
 
 .log-btn:hover{
@@ -83,9 +84,11 @@ button:not(:disabled) {
 }
 
 .btn-outline-light { 
-  
+  min-width: 70px;
+  border-radius: 20px !important;
   margin: 10px 20px ;
-  --bs-btn-bg:  rgb(255, 255, 255) !important;
+    --bs-btn-color: rgb(45, 41, 88) !important;
+    --bs-btn-bg:  rgb(255, 255, 255) !important;
     --bs-btn-border-color: rgb(45, 41, 88) !important;
     --bs-btn-hover-bg: rgb(176, 171, 197)!important;
     --bs-btn-hover-color: rgb(255, 255, 255)!important;
