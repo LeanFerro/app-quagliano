@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const dbconnection = require("./database");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -98,6 +100,7 @@ app.post("/login", (req, res) => {
 `; // aclaracion = grupo
 
   dbconnection.query(sqlQuery, [cuit], (error, results) => {
+    console.log(results);
     if (error) {
       console.error("Error al ejecutar la consulta:", error);
       res
@@ -107,14 +110,13 @@ app.post("/login", (req, res) => {
       if (results.length > 0) {
         bcrypt.compare(secreto, results[0].secreto, (err, result) => {
           if (result) {
-            console.log(result);
             const token = jwt.sign({ cuit: cuit }, process.env.JWT_SECRETO, {
               expiresIn: "1h",
             });
-            console.log(token);
             const nombresClientes = results.map((result) => result.nombre);
+            console.log("Nombres Clientes: ", nombresClientes);
             const nombreCliente = pepe(cuit, results);
-
+            console.log("nombre cliente: ", nombreCliente);
             res.status(200).send({
               message: "Credenciales válidas",
               nombresClientes,
@@ -152,6 +154,181 @@ const verifyToken = (req, res, next) => {
     res.sendStatus(403);
   }
 };
+
+// Configura el transportador de nodemailer
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "fesin81@gmail.com",
+    pass: process.env.MAIL_PASSWORD,
+  },
+});
+
+app.post("/password-recovery", (req, res) => {
+  const correo = req.body.email;
+  const token = crypto.randomBytes(20).toString("hex");
+  console.log(correo);
+
+  // Primero, obtén el id_usuario usando el correo
+  const sqlQuery = "SELECT id_usuario FROM usuarios WHERE correo = ?";
+
+  dbconnection.query(sqlQuery, [correo], (error, results) => {
+    console.log(correo);
+    if (error) {
+      console.log("Error al ejecutar la consulta:", error);
+      res
+        .status(500)
+        .send("Error al procesar la solicitud de recuperación de contraseña.");
+    } else {
+      if (results.length > 0) {
+        const id_usuario = results[0].id_usuario;
+
+        // Luego, actualiza el token de recuperación de contraseña usando el id_usuario
+        const sqlUpdateQuery =
+          "UPDATE usuarios SET resetPasswordToken = ? WHERE id_usuario = ?";
+
+        dbconnection.query(
+          sqlUpdateQuery,
+          [token, id_usuario],
+          (error, result) => {
+            if (error) {
+              console.log("Error al ejecutar la consulta:", error);
+              res;
+              res.status(500).send({
+                success: false,
+                message:
+                  "Error al procesar la solicitud de recuperación de contraseña.",
+              });
+            } else {
+              // Configura las opciones del correo electrónico
+              let mailOptions = {
+                from: "fesin81@gmail.com",
+                to: correo,
+                subject: "Password Recovery",
+                text:
+                  "Click on this link to recover your password: http://localhost:3000/reset?token=" +
+                  token,
+              };
+
+              // Envía el correo electrónico
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.log(error);
+                  res;
+                  res.status(500).send({
+                    success: false,
+                    message:
+                      "Error al enviar el correo de recuperación de contraseña.",
+                  });
+                } else {
+                  console.log("Email sent: " + info.response);
+                  res.status(200).send({
+                    success: true,
+                    message:
+                      "Se ha enviado un correo de recuperación a " +
+                      correo +
+                      ".",
+                  });
+                }
+              });
+            }
+          }
+        );
+      } else {
+        res
+          .status(404)
+          .send("No se encontró un usuario con ese correo electrónico.");
+      }
+    }
+  });
+});
+
+app.post("/reset-password", (req, res) => {
+  const correo = req.body.correo;
+  const token = req.body.token;
+  const secreto = req.body.newPassword;
+
+  // Primero, obtén el id_usuario usando el correo
+  const sqlQuery = "SELECT id_usuario FROM usuarios WHERE correo = ?";
+
+  dbconnection.query(sqlQuery, [correo], (error, results) => {
+    if (error) {
+      console.error("Error al ejecutar la consulta:", error);
+      res.status(500).send("Error al cambiar la contraseña.");
+    } else {
+      if (results.length > 0) {
+        const id_usuario = results[0].id_usuario;
+
+        // Luego, verifica el token y actualiza la contraseña usando el id_usuario
+        const sqlUpdateQuery =
+          "SELECT * FROM usuarios WHERE id_usuario = ? AND resetPasswordToken = ?";
+
+        dbconnection.query(
+          sqlUpdateQuery,
+          [id_usuario, token],
+          (error, results) => {
+            if (error) {
+              console.error("Error al ejecutar la consulta:", error);
+              res.status(500).send("Error al cambiar la contraseña.");
+            } else {
+              if (results.length > 0) {
+                // Genera el hash de la nueva contraseña
+                bcrypt.genSalt(10, (err, salt) => {
+                  bcrypt.hash(secreto, salt, (err, hash) => {
+                    if (err) {
+                      console.error(
+                        "Error al generar el hash de la contraseña:",
+                        err
+                      );
+                      res.status(500).send({
+                        success: false,
+                        message: "Error al cambiar la contraseña.",
+                      });
+                    } else {
+                      // Consulta SQL para actualizar la contraseña
+                      const sqlUpdatePasswordQuery =
+                        "UPDATE usuarios SET secreto = ?, resetPasswordToken = NULL WHERE id_usuario = ?";
+
+                      dbconnection.query(
+                        sqlUpdatePasswordQuery,
+                        [hash, id_usuario],
+                        (error, result) => {
+                          if (error) {
+                            console.error(
+                              "Error al ejecutar la consulta:",
+                              error
+                            );
+                            res.status(500).send({
+                              success: false,
+                              message: "Error al cambiar la contraseña.",
+                            });
+                          } else {
+                            res;
+                            res.status(200).send({
+                              success: true,
+                              message:
+                                "La contraseña ha sido cambiada exitosamente.",
+                            });
+                          }
+                        }
+                      );
+                    }
+                  });
+                });
+              } else {
+                res.status(401).send("Token inválido.");
+              }
+            }
+          }
+        );
+      } else {
+        res
+          .status(404)
+          .send("No se encontró un usuario con ese correo electrónico.");
+      }
+    }
+  });
+});
 
 app.get("/clientes", (req, res) => {
   dbconnection.query("SELECT * FROM CLIENTES", (error, result) => {

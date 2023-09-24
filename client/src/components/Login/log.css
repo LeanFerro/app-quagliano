@@ -179,19 +179,24 @@
 
 .chk{
     width: 30px;
-   
+    
     margin: 5px 10px;
 }
 
+.nomb-modal{
+    position: inherit;
+    margin-bottom: 10px;
+    color: rgb(30, 25, 44) !important;
+}
+
 .modal-title{
+    
     color: rgb(30, 25, 44) !important;
 }
 
 .modal-body {
     color: rgb(30, 25, 44);
-    font-weight: 500;
-    
-    
+    font-weight: 500; 
 }
 
 .olvido {
@@ -209,11 +214,6 @@
     margin-top: 40px;
     width: 100%;
     
-}
-
-.nomb-modal{
-    margin-bottom: 10px;
-    color: rgb(30, 25, 44) !important;
 }
 
 

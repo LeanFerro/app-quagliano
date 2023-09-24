@@ -14,10 +14,10 @@ const Log = () => {
   const [nombresClientes, setNombresClientes] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [errorMensaje, setErrorMensaje] = useState("");
-  const [token, setToken] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (cuit.length !== 11 || !/^\d+$/.test(cuit)) {
       setMensaje("El CUIT debe contener 11 números válidos.");
       return;
@@ -89,9 +89,8 @@ const Log = () => {
       if (response.status === 200) {
         // Guarda el token en el estado
         const token = response.data.token;
-        setToken(response.data.token);
         localStorage.setItem("token", token);
-        console.log(response.data.token);
+
         // Obtiene el nombre del cliente
         const nombreCliente = response.data.nombreCliente;
         setNombreCliente(nombreCliente);

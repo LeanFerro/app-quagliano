@@ -35,7 +35,7 @@ const TablaMarcas = () => {
     if (!isAuthenticated()) {
       navigate("/log");
     }
-  }, []);
+  }, [navigate]);
 
   const location = useLocation();
   const [nombreCliente, setNombreCliente] = useState(
