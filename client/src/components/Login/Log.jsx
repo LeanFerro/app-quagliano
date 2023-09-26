@@ -92,10 +92,10 @@ const Log = () => {
         localStorage.setItem("token", token);
 
         // Obtiene el nombre del cliente
-        const nombreCliente = response.data.nombreCliente;
+        const nombreCliente = response.data.nombre;
         setNombreCliente(nombreCliente);
         // Obtiene el nombres del clientes
-        const indaloClientes = response.data.nombresClientes;
+        const indaloClientes = response.data.nombres;
         setNombresClientes(nombresClientes);
 
         // Redirige al componente deseado

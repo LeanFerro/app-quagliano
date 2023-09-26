@@ -1,9 +1,7 @@
-const express = require("express");
-const app = express();
+const app = require("express")();
 const cors = require("cors");
-const mysql = require("mysql");
 const bodyParser = require("body-parser");
-const dbconnection = require("./database");
+const dbconnection = require("./database/database");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -26,7 +24,7 @@ app.post("/signup", (req, res) => {
   const id_cliente = req.body.idCliente;
 
   // Generar el hash de la contraseña utilizando bcryptjs
-  bcrypt.genSalt(10, (err, salt) => {
+  bcrypt.genSalt(process.env.NIVEL_ENCRYPTACION, (err, salt) => {
     bcrypt.hash(secreto, salt, (err, hash) => {
       if (err) {
         console.error("Error al generar el hash de la contraseña:", err);
@@ -74,11 +72,15 @@ app.get("/verificar-cuit", (req, res) => {
   });
 });
 
-const pepe = (cuit, results) => {
-  for (let i = 0; i < results.length; i++) {
-    if (results[i].cuit == cuit) return results[i].nombre;
+const getNombre = (cuit, clientes) => {
+  for (let i = 0; i < clientes.length; i++) {
+    if (clientes[i].cuit == cuit) return clientes[i].nombre;
+  }
+};
 
-    console.log(results[i].nombre);
+const getSecreto = (cuit, clientes) => {
+  for (let i = 0; i < clientes.length; i++) {
+    if (clientes[i].cuit == cuit) return clientes[i].secreto;
   }
 };
 
@@ -87,47 +89,50 @@ app.post("/login", (req, res) => {
   const secreto = req.body.password;
 
   const sqlQuery = `
-  SELECT c.nombre, c.cuit, u.secreto 
-  FROM clientes c
-  JOIN usuarios u on c.cuit = u.cuit
-  WHERE c.aclaracion LIKE
-    concat(
-      (SELECT SUBSTRING(clientes.aclaracion, 1, 6)
-      FROM clientes 
-      WHERE clientes.cuit = ?) , "%"
-      );
+  SELECT c.nombre, c.cuit, u.secreto
+  FROM clientes c 
+  LEFT JOIN usuarios u ON c.cuit = u.cuit
+  WHERE c.aclaracion LIKE CONCAT(
+  (SELECT SUBSTRING(aclaracion, 1, 6) 
+   FROM clientes
+   WHERE cuit = ?),
+  '%'
+);
   
 `; // aclaracion = grupo
-
-  dbconnection.query(sqlQuery, [cuit], (error, results) => {
-    console.log(results);
+  dbconnection.query(sqlQuery, [cuit], (error, clientes) => {
     if (error) {
       console.error("Error al ejecutar la consulta:", error);
       res
         .status(500)
         .send("Error al verificar las credenciales en la base de datos.");
     } else {
-      if (results.length > 0) {
-        bcrypt.compare(secreto, results[0].secreto, (err, result) => {
-          if (result) {
-            const token = jwt.sign({ cuit: cuit }, process.env.JWT_SECRETO, {
-              expiresIn: "1h",
-            });
-            const nombresClientes = results.map((result) => result.nombre);
-            console.log("Nombres Clientes: ", nombresClientes);
-            const nombreCliente = pepe(cuit, results);
-            console.log("nombre cliente: ", nombreCliente);
-            res.status(200).send({
-              message: "Credenciales válidas",
-              nombresClientes,
-              nombreCliente,
-              token: token,
-            });
-          } else {
-            console.log(" primero Credenciales incorrectas.");
-            res.status(401).send("Credenciales incorrectas.");
+      if (clientes.length > 0) {
+        console.log(clientes);
+        bcrypt.compare(
+          secreto,
+          getSecreto(cuit, clientes),
+          function (err, cliente) {
+            console.log(cliente);
+            if (cliente) {
+              const token = jwt.sign({ cuit: cuit }, process.env.JWT_SECRETO, {
+                expiresIn: "1h",
+              });
+              const nombres = clientes.map((cliente) => cliente.nombre);
+              const nombre = getNombre(cuit, clientes);
+              console.log("nombre de cliente: ", nombre);
+              res.status(200).send({
+                message: "Credenciales válidas",
+                nombres,
+                nombre,
+                token: token,
+              });
+            } else {
+              console.log("primero Credenciales incorrectas.");
+              res.status(401).send("Credenciales incorrectas.");
+            }
           }
-        });
+        );
       } else {
         console.log(" segundo Credenciales incorrectas.");
         res.status(401).send("Credenciales incorrectas.");
@@ -204,9 +209,9 @@ app.post("/password-recovery", (req, res) => {
               let mailOptions = {
                 from: "fesin81@gmail.com",
                 to: correo,
-                subject: "Password Recovery",
+                subject: "Reseteo de contraseña",
                 text:
-                  "Click on this link to recover your password: http://localhost:3000/reset?token=" +
+                  "Haz clic en el link para resetear su contraseña: http://localhost:3000/reset?token=" +
                   token,
               };
 

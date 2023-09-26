@@ -144,7 +144,7 @@ const TablaMarcas = () => {
         <DataTable
           value={marcas}
           paginator
-          rows={20}
+          rows={10}
           filters={filters}
           selectionMode="single"
           dataKey="id"
@@ -213,7 +213,7 @@ const TablaMarcas = () => {
         header={
           selectedRow && (
             <div className="modalhead">
-              <h2>{selectedRow.MARCA}</h2>
+              <h2>{selectedRow.nombre}</h2>
             </div>
           )
         }

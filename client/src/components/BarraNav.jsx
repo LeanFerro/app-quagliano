@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import "./css/navbar.css";
-import logo from "./img/logo_blanco.png";
+import logo from "./img/logo_blanco1.png";
 import qLogo from "./img/LG.png";
 import linea from "./img/linea.jpg";
 import { logout } from "./helpers/auth";

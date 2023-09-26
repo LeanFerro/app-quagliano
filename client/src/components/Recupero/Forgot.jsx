@@ -34,14 +34,10 @@ const Forgot = () => {
       if (response.data.success) {
         setShowModal(true);
       } else {
-        setMessage(
-          "Hay un problema al procesar la solicitud de recuperación de contraseña."
-        );
+        setMessage("Mail incorrecto.");
       }
     } catch (error) {
-      setMessage(
-        "Hubo un error al enviar la solicitud de recuperación de contraseña."
-      );
+      setMessage("Error al enviar la solicitud de recuperación de contraseña.");
     }
   };
 

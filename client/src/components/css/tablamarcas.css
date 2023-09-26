@@ -1,53 +1,78 @@
-
-
+*{
+  border: none;
+}
 
 td {
     padding: 5px !important;
     color: rgb(228,225,238); 
-    border-bottom: 1px solid rgb(215,169,170) !important;
+    border-bottom: 1px solid rgb(215, 94, 85) !important;
 }
 
 th{
-    background-color:rgb(30, 25, 44) !important;
+    background-color: rgb(32, 29, 63, 0.8) !important;
     color: beige !important;
+    border-top: 1px solid rgb(51, 93, 152) !important;
+    border-bottom: 1px solid rgb(51, 93, 152) !important;;
 }
 
 .p-button {
     padding: 5px 8px ;
     margin-left: 5px;
-    background-color: rgb(215,169,170) !important;
+    background-color: rgb(215, 94, 85) !important;
     border: 1px solid rgb(36, 28, 68) !important;
     border-radius: 10px;
 }
 
 .p-paginator{
-  background: rgb(228,225,238);
+  background: transparent;
+  border-top: 1px solid rgb(215, 94, 85) !important;
+  border-bottom: 1px solid rgb(45, 41, 88) !important;;
 }
 
 .p-datatable-header {
-    background-color: rgb(228, 225, 238) !important;
+    background-color: transparent !important;
+    border-color: rgb(45, 41, 88) !important;
 }
 
 .p-datatable .p-datatable-tbody > tr {
-    background-color: rgb(36, 28, 68) !important; 
+    background-color: transparent !important; 
     transition: background-color 0.3s ease !important;
     border-bottom: 1px solid rgb(78, 78, 80) !important;
-    cursor: pointer; 
+    cursor: pointer;
+    
   }
+
+
   
   /* Estilo para la fila en hover */
   .p-datatable .p-datatable-tbody > tr:hover {
-    background-color: #392a70 !important; 
+    background-color: rgb(32,62,124, 0.5) !important; 
     cursor: pointer; 
   }
 
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight{
+  background-color: rgb(215, 94, 85);
+  color: white;
+}
+
   .modalhead {
-    margin-right: 20px;
-    color: aliceblue;
+
+    padding: 10px;
+    color: white;
+  }
+
+  .modalhead h2 {
+    margin: 0;
+  }
+
+  .p-dialog .p-dialog-header .p-dialog-header-icon {
+    color: rgb(30, 25, 44);
+    background: white;
+    margin: 5px;
   }
 
   .p-dialog .p-dialog-header {
-    background-color: rgb(36, 28, 68);
+    background-color: rgb(215, 94, 85);
     padding: 5px;
     
   }
@@ -63,7 +88,7 @@ th{
 
   .nomb-emp{
     margin: auto;
-    color: rgb(30, 25, 44);
+    color: White;
     font-weight: 600;
   }
 
@@ -92,18 +117,33 @@ th{
 
 .p-datatable {
     /* Ajusta el valor del margen según tus necesidades */
-     border: 2px solid rgb(49,91,148);
-     padding: 0 7px;
-     background: rgb(228, 225, 238);
+     
+     background: rgb(45, 41, 88);
+     background-image: URL("../img/ggg.png");
+     background-size: auto 100%;
+     background-position: center;
+     background-repeat: no-repeat;
    }
+
+.p-datatable-wrapper{
+    min-height: 60vh;
+}
+
 
 .table-container {
     width: 100%;
     height: 100%;
-    background: rgb(201, 201, 201);
+    background: transparent;
     padding: 20px 10px;
   }
 
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
+    color: white;
+  }
+
+.p-paginator .p-paginator-pages .p-paginator-page{
+  color: white;
+}
   
   @media (max-width: 768px) {
     .header {
@@ -125,3 +165,4 @@ th{
   
   }
 
+ /* rgb(32,62,124) */

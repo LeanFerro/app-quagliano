@@ -73,6 +73,7 @@
     padding: 10px 20px;
     color: rgb(255, 255, 255);
     cursor: pointer;
+    transition: 0.3s ease;
 
 }
 
@@ -148,6 +149,7 @@
     cursor: pointer;
     margin-top: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+    transition: 0.3s ease;
 }
 
 .form Button:hover {
@@ -189,12 +191,15 @@
     color: rgb(30, 25, 44) !important;
 }
 
+
+
 .modal-title{
-    
-    color: rgb(30, 25, 44) !important;
+    font-weight: 600 !important;
+    color: rgb(36, 28, 68) !important;
 }
 
 .modal-body {
+    font-size: 1.1rem;
     color: rgb(30, 25, 44);
     font-weight: 500; 
 }
@@ -221,6 +226,10 @@
     margin-top: 10px;
     margin-left: 10px;
 }
+
+
+
+
 
 /*RESPONSIVE FORM*/
 
