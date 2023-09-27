@@ -13,8 +13,11 @@ import "primeicons/primeicons.css";
 import { useLocation } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "./img/1boletin.jpg";
+import { useNavigate } from "react-router-dom";
+import { isAuthenticated } from "../components/helpers/auth";
 
 const TablaMarcas = () => {
+  const navigate = useNavigate();
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
@@ -27,6 +30,12 @@ const TablaMarcas = () => {
     vencimiento: { value: null, matchMode: FilterMatchMode.CONTAINS },
     vencimiento_du: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/log");
+    }
+  }, []);
 
   const location = useLocation();
   const [nombreCliente, setNombreCliente] = useState(
