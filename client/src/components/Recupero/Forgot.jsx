@@ -1,8 +1,8 @@
 import React from "react";
-import axios from "axios";
 import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "./forgot.css";
+import { sendPasswordRecoveryRequest } from "../helpers/api";
 
 const Forgot = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ const Forgot = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendPasswordRecoveryRequest();
+    sendRequest();
   };
 
   const handleCloseModal = () => {
@@ -23,15 +23,10 @@ const Forgot = () => {
     window.location.reload();
   };
 
-  const sendPasswordRecoveryRequest = async () => {
+  const sendRequest = async () => {
     try {
-      console.log(email);
-      const response = await axios.post(
-        "http://localhost:8080/password-recovery",
-        { email }
-      );
-
-      if (response.data.success) {
+      const response = await sendPasswordRecoveryRequest(email);
+      if (response.success) {
         setShowModal(true);
       } else {
         setMessage("Mail incorrecto.");

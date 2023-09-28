@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { sendResetPassword } from "../helpers/api";
 
 const Reset = () => {
   const [correo, setCorreo] = useState("");
@@ -11,7 +11,6 @@ const Reset = () => {
   const [token, setToken] = useState("");
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-
   const location = useLocation();
 
   useEffect(() => {
@@ -41,12 +40,9 @@ const Reset = () => {
 
   const resetPassword = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/reset-password",
-        { correo, token, newPassword }
-      );
+      const response = await sendResetPassword(correo, token, newPassword);
 
-      if (response.data.success) {
+      if (response.success) {
         setShowModal(true);
       } else {
         setMessage("Hay un problema al cambiar la contraseña");

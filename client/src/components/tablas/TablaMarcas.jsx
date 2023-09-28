@@ -4,7 +4,6 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
-import axios from "axios";
 import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -16,28 +15,27 @@ import boletin from "../img/1boletin.jpg";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../helpers/auth";
 import "../navbar/script";
+import { getMarcas } from "../helpers/api";
 
 const TablaMarcas = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/log");
+    }
+  }, [navigate]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    MARCA: { value: null, matchMode: FilterMatchMode.CONTAINS },
     acta: { value: null, matchMode: FilterMatchMode.CONTAINS },
     resolucion: { value: null, matchMode: FilterMatchMode.CONTAINS },
     clase: { value: null, matchMode: FilterMatchMode.CONTAINS },
     vencimiento: { value: null, matchMode: FilterMatchMode.CONTAINS },
     vencimiento_du: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/log");
-    }
-  }, [navigate]);
-
   const location = useLocation();
   const [nombreCliente, setNombreCliente] = useState(
     location.state ? location.state.nombreCliente : "Cliente no definido"
@@ -49,10 +47,8 @@ const TablaMarcas = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/marcas?nombreCliente=${nombreCliente}`
-        );
-        setMarcas(response.data);
+        const data = await getMarcas(nombreCliente);
+        setMarcas(data);
       } catch (error) {
         console.error(error);
       }
@@ -151,7 +147,7 @@ const TablaMarcas = () => {
           dataKey="id"
           header={header}
           globalFilterFields={[
-            "nombre",
+            "MARCA",
             "acta",
             "resolucion",
             "clase",
@@ -170,7 +166,7 @@ const TablaMarcas = () => {
             )}
           />
           <Column
-            field="nombre"
+            field="MARCA"
             header="MARCA"
             style={{ minWidth: "400px" }}
             body={(rowData) => (

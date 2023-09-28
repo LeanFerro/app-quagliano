@@ -10,7 +10,7 @@ function postSignup(req, res) {
   const id_cliente = req.body.idCliente;
 
   // Generar el hash de la contraseña utilizando bcryptjs
-  bcrypt.genSalt(process.env.NIVEL_ENCRYPTACION, (err, salt) => {
+  bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(secreto, salt, (err, hash) => {
       if (err) {
         console.error("Error al generar el hash de la contraseña:", err);
