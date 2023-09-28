@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import "./css/navbar.css";
-import logo from "./img/logo_blanco1.png";
-import qLogo from "./img/LG.png";
-import linea from "./img/linea.jpg";
-import { logout } from "./helpers/auth";
-import { isAuthenticated } from "./helpers/auth";
+import "./navbar.css";
+import logo from "../img/logo_blanco1.png";
+import qLogo from "../img/LG.png";
+import linea from "../img/linea.jpg";
+import { logout } from "..//helpers/auth";
+import { isAuthenticated } from "../helpers/auth";
 
 const BarraNav = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -65,6 +65,7 @@ const BarraNav = () => {
             id="responsive-navbar-nav"
             className="collapse-custom"
           >
+            <div class="bx bx-sun" id="darkMode-icon"></div>
             <Nav className="ml-auto">
               {isAuthenticated() && (
                 <Button

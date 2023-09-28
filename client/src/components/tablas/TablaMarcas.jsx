@@ -8,13 +8,14 @@ import axios from "axios";
 import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
-import "./css/tablamarcas.css";
+import "./tablamarcas.css";
 import "primeicons/primeicons.css";
 import { useLocation } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import boletin from "./img/1boletin.jpg";
+import boletin from "../img/1boletin.jpg";
 import { useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../components/helpers/auth";
+import { isAuthenticated } from "../helpers/auth";
+import "../navbar/script";
 
 const TablaMarcas = () => {
   const navigate = useNavigate();

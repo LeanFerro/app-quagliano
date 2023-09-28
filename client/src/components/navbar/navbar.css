@@ -60,14 +60,11 @@ button:not(:disabled) {
   color: white;
   justify-content: center;
   font-weight: 600;
-  
 }
 
 .log-btn:hover{
   text-decoration: none;
   color: rgb(255, 255, 255) !important;
-  
-
 }
 
 .btn-h {
@@ -82,6 +79,16 @@ button:not(:disabled) {
 
 .collapse-custom{
   flex-grow: 0 !important;
+}
+
+#darkMode-icon {
+  font-size: 2.4rem;
+  color: rgb(252, 252, 252);
+  cursor: pointer;
+}
+
+.dark-mode{
+  --blue-medium: rgb(203, 198, 221);
 }
 
 .btn-outline-light { 

@@ -2,9 +2,17 @@
   border: none;
 }
 
+:root{
+  --red-color: rgb(215, 94, 85);
+  --blue-dark: rgb(30, 25, 44);
+  --blue-medium: rgb(45, 41, 88);
+  --light-bg: rgb(203, 198, 221);
+}
+
 td {
     padding: 5px !important;
-    color: rgb(228,225,238); 
+    color: white;
+    font-weight: 500;
     border-bottom: 1px solid rgb(215, 94, 85) !important;
 }
 
@@ -96,11 +104,14 @@ th{
     text-align: center;
     margin-bottom: 10px;
   }
+
+
+
   
 
 
 .btn-success {
-  --bs-btn-bg: rgb(30, 25, 44) !important;
+  --bs-btn-bg: var(--red-color) !important;
   --bs-btn-border-color: rgb(30, 25, 44) !important;
   --bs-btn-hover-bg: rgb(30, 25, 44) !important;
   --bs-btn-hover-border-color: rgb(30, 25, 44) !important;
@@ -118,7 +129,7 @@ th{
 .p-datatable {
     /* Ajusta el valor del margen según tus necesidades */
      
-     background: rgb(45, 41, 88);
+     background: var( --blue-medium);
      background-image: URL("../img/ggg.png");
      background-size: auto 100%;
      background-position: center;

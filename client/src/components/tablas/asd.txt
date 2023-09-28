@@ -1,0 +1,17 @@
+ .p-datatable {
+  /* Ajusta el valor del margen según tus necesidades */
+   
+   background: rgb(240, 239, 255);
+   background-image: URL("../img/q_trans1.png");}
+
+   .nomb-emp{
+    
+    color: rgb(36, 28, 68);
+    font-weight: 600;
+  }
+
+  td {
+    color: rgb(36, 28, 68);
+    font-weight: 500;
+    
+}
