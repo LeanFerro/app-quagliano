@@ -11,9 +11,9 @@ function getMarcas(req, res) {
   const sqlQuery = `
       SELECT marcas.* 
       FROM marcas 
-      INNER JOIN clientes_marcas ON marcas.id_marca = clientes_marcas.id_marca 
-      INNER JOIN clientes ON clientes_marcas.id_cliente = clientes.id_cliente 
-      WHERE clientes.nombre = ?
+      INNER JOIN marcas_clientes ON marcas.id_marca = marcas_clientes.id_marca 
+      INNER JOIN clientes ON marcas_clientes.id_cliente = clientes.id_cliente 
+      WHERE clientes.cliente = ?
     `;
   dbconnection.query(sqlQuery, [nombreCliente], (error, result) => {
     if (error) return res.json(error);

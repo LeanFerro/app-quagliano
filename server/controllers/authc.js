@@ -18,8 +18,8 @@ function postSignup(req, res) {
       } else {
         // Guardar el usuario en la base de datos con la contraseña hasheada
         dbconnection.query(
-          "INSERT INTO app.usuarios (secreto, correo, cuit, id_cliente) VALUES (?, ?, ?, ?)",
-          [hash, correo, cuit, id_cliente],
+          "INSERT INTO usuarios (secreto, correo, cuit) VALUES (?, ?, ?)",
+          [hash, correo, cuit],
           (error, result) => {
             if (error) {
               console.error("Error al ejecutar la consulta:", error);
@@ -60,7 +60,7 @@ function verifyCuit(req, res) {
 
 const getNombre = (cuit, clientes) => {
   for (let i = 0; i < clientes.length; i++) {
-    if (clientes[i].cuit == cuit) return clientes[i].nombre;
+    if (clientes[i].cuit == cuit) return clientes[i].cliente;
   }
 };
 
@@ -75,7 +75,7 @@ const getLogin = function (req, res) {
   const secreto = req.body.password;
 
   const sqlQuery = `
-      SELECT c.nombre, c.cuit, u.secreto
+      SELECT c.cliente, c.cuit, u.secreto
       FROM clientes c 
       LEFT JOIN usuarios u ON c.cuit = u.cuit
       WHERE c.aclaracion LIKE CONCAT(
@@ -104,7 +104,7 @@ const getLogin = function (req, res) {
               const token = jwt.sign({ cuit: cuit }, process.env.JWT_SECRETO, {
                 expiresIn: "1h",
               });
-              const nombres = clientes.map((cliente) => cliente.nombre);
+              const nombres = clientes.map((cliente) => cliente.cliente);
               const nombre = getNombre(cuit, clientes);
               console.log("nombre de cliente: ", nombre);
               res.status(200).send({

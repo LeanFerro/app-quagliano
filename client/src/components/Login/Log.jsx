@@ -3,7 +3,7 @@ import "./log.css";
 import { Modal, Button, NavLink } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import chk from "./check.png";
-import { login, verificarCuit, signup } from "../helpers/api";
+import { login, verificarCuit, signup } from "../helpers/api.js";
 
 const Log = () => {
   const [showModal, setShowModal] = useState(false);

@@ -29,12 +29,12 @@ const TablaMarcas = () => {
   const [marcas, setMarcas] = useState([]);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    acta: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    resolucion: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    clase: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    vencimiento: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    vencimiento_du: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    MARCA: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    ACTA: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    NRESO: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    CLASE: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    FEC_VTO: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    FVTODU: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
   const location = useLocation();
   const [nombreCliente, setNombreCliente] = useState(
@@ -48,6 +48,7 @@ const TablaMarcas = () => {
     const fetchData = async () => {
       try {
         const data = await getMarcas(nombreCliente);
+        console.log(data);
         setMarcas(data);
       } catch (error) {
         console.error(error);
@@ -98,14 +99,14 @@ const TablaMarcas = () => {
               Elegir empresa
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu style={{ maxHeight: "400px", overflowY: "auto" }}>
               {Array.isArray(indaloClientes) &&
-                indaloClientes.map((nombre, index) => (
+                indaloClientes.map((cliente, index) => (
                   <Dropdown.Item
                     key={index}
-                    onClick={() => setNombreCliente(nombre)}
+                    onClick={() => setNombreCliente(cliente)}
                   >
-                    {nombre}
+                    {cliente}
                   </Dropdown.Item>
                 ))}
             </Dropdown.Menu>
@@ -125,7 +126,18 @@ const TablaMarcas = () => {
   }, []);
 
   const tiempo = (rowData) => {
-    const fechaVencimiento = new Date(rowData.vencimiento_du);
+    const fechaVencimiento = new Date(rowData.FEC_VTO);
+    const dia = fechaVencimiento.getDate();
+    const mes = fechaVencimiento.getMonth() + 1;
+    const año = fechaVencimiento.getFullYear();
+    const fechaFormateada = `${dia < 10 ? "0" : ""}${dia}-${
+      mes < 10 ? "0" : ""
+    }${mes}-${año}`;
+    return <span>{fechaFormateada}</span>;
+  };
+
+  const tiempoDu = (rowData) => {
+    const fechaVencimiento = new Date(rowData.FVTODU);
     const dia = fechaVencimiento.getDate();
     const mes = fechaVencimiento.getMonth() + 1;
     const año = fechaVencimiento.getFullYear();
@@ -144,7 +156,7 @@ const TablaMarcas = () => {
           rows={10}
           filters={filters}
           selectionMode="single"
-          dataKey="id"
+          dataKey="ID_MARCA"
           header={header}
           globalFilterFields={[
             "nombre",
@@ -166,46 +178,41 @@ const TablaMarcas = () => {
             )}
           />
           <Column
-            field="nombre"
+            field="MARCA"
             header="MARCA"
             style={{ minWidth: "400px" }}
             body={(rowData) => (
-              <span style={{ paddingLeft: "10px" }}>{rowData.nombre}</span>
+              <span style={{ paddingLeft: "10px" }}>{rowData.MARCA}</span>
             )}
           />
+          <Column field="ACTA" header="ACTA" style={{ minWidth: "100px" }} />
           <Column
-            key="acta-column"
-            field="acta"
-            header="ACTA"
-            style={{ minWidth: "100px" }}
-          />
-          <Column
-            field="resolucion"
+            field="NRESO"
             header="RESOLUCION"
             style={{ minWidth: "100px" }}
             body={(rowData) => (
-              <div style={{ marginLeft: "20px" }}>{rowData.resolucion}</div>
+              <div style={{ marginLeft: "20px" }}>{rowData.NRESO}</div>
             )}
           />
           <Column
-            field="clase"
+            field="CLASE"
             header="CLASE"
             style={{ minWidth: "80px", paddingLeft: "5px" }}
             body={(rowData) => (
-              <div style={{ marginLeft: "20px" }}>{rowData.clase}</div>
+              <div style={{ marginLeft: "20px" }}>{rowData.CLASE}</div>
             )}
           />
           <Column
-            field="vencimiento"
+            field="FEC_VTO"
             header="VTO MARCA"
             style={{ minWidth: "125px", paddingLeft: "5px" }}
             body={tiempo}
           />
           <Column
-            field="vencimiento_du"
+            field="FVTODU"
             header="VTO DU"
             style={{ minWidth: "125px", paddingLeft: "5px" }}
-            body={tiempo}
+            body={tiempoDu}
           />
         </DataTable>
       </div>

@@ -12,6 +12,7 @@ import Log from "./components/Login/Log";
 import Forgot from "./components/Recupero/Forgot";
 import Reset from "./components/Recupero/Reset";
 import { isAuthenticated } from "./components/helpers/auth";
+import "./App.css";
 
 const MainRoutes = () => {
   const navigate = useNavigate();
