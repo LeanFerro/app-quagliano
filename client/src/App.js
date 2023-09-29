@@ -40,35 +40,6 @@ const MainRoutes = () => {
     </Routes>
   );
 };
-import { isAuthenticated } from "./components/helpers/auth";
-
-const MainRoutes = () => {
-  const navigate = useNavigate();
-  const isAuth = isAuthenticated();
-
-  useEffect(() => {
-    if (
-      !isAuth &&
-      !window.location.pathname.includes("olvido") &&
-      !window.location.pathname.includes("reset")
-    ) {
-      navigate("/log");
-    }
-  }, [isAuth, navigate]);
-
-  return (
-    <Routes>
-      <Route path="/" element={<BarraNav />}>
-        <Route index element={<Log />} />
-        <Route path="olvido" element={<Forgot />} />
-        <Route path="log" element={<Log />} />
-        <Route path="reset" element={<Reset />} />
-        <Route path="marcas" element={<TablaMarcas />} />
-        <Route path="*" element={<Outlet />} />
-      </Route>
-    </Routes>
-  );
-};
 
 function App() {
   return (
