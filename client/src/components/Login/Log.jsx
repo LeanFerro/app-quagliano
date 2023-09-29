@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./log.css";
 import { Modal, Button, NavLink } from "react-bootstrap";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import chk from "./check.png";
+import { login, verificarCuit, signup } from "../helpers/api";
 
 const Log = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,12 +14,13 @@ const Log = () => {
   const [nombresClientes, setNombresClientes] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [errorMensaje, setErrorMensaje] = useState("");
-  const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (cuit.length !== 11 || !/^\d+$/.test(cuit)) {
-      setMensaje("El CUIT debe contener 11 números válidos.");
+      setMensaje("El CUIT debe contener 11 números.");
       return;
     }
 
@@ -36,78 +37,53 @@ const Log = () => {
 
     try {
       console.log("Verificando CUIT:", cuit);
-      const response = await axios.get(
-        `http://localhost:8080/verificar-cuit?cuit=${cuit}`
-      );
-      console.log("Respuesta del servidor:", response.data);
+      const response = await verificarCuit(cuit);
+      console.log("Respuesta del servidor:", response);
 
-      if (response.status === 200) {
-        if (response.data.existe) {
-          setMensaje("Este CUIT ya ha sido utilizado.");
-        } else {
-          setNombreCliente(response.data.nombre);
-          setMensaje("CUIT verificado con éxito.");
-
-          const idCliente = response.data.id_cliente;
-          console.log("Verificando id cliente:", response.data.id_cliente);
-          // Ahora puedes realizar la llamada a tu API de registro.
-          await axios.post("http://localhost:8080/signup", {
-            idCliente,
-            password,
-            correo,
-            cuit,
-          });
-
-          // Limpia los campos después del registro exitoso.
-          setCorreo("");
-          setPassword("");
-          setCuit("");
-
-          setShowModal(true);
-        }
+      if (response.existe) {
+        setMensaje("Este CUIT ya ha sido utilizado.");
       } else {
-        setMensaje(response.data);
+        setNombreCliente(response.nombre);
+        setMensaje("CUIT verificado con éxito.");
+
+        const idCliente = response.id_cliente;
+        console.log("Verificando id cliente:", idCliente);
+        // Ahora puedes realizar la llamada a tu API de registro.
+        await signup(idCliente, password, correo, cuit);
+
+        // Limpia los campos después del registro exitoso.
+        setCorreo("");
+        setPassword("");
+        setCuit("");
+
+        setShowModal(true);
       }
     } catch (error) {
-      setMensaje("Error al verificar el CUIT.");
+      setMensaje("El CUIT o mail ya existe");
     }
   };
 
   // Login
 
-  const navigate = useNavigate(); // Inicializa useNavigate
-
   const handleLogin = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/login", {
-        cuit,
-        password,
-      });
-
-      if (response.status === 200) {
-        // Guarda el token en el estado
-        const token = response.data.token;
-        setToken(response.data.token);
-        localStorage.setItem("token", token);
-        console.log(response.data.token);
-        // Obtiene el nombre del cliente
-        const nombreCliente = response.data.nombreCliente;
-        setNombreCliente(nombreCliente);
-        // Obtiene el nombres del clientes
-        const indaloClientes = response.data.nombresClientes;
-        setNombresClientes(nombresClientes);
-
-        // Redirige al componente deseado
-        navigate("/marcas", { state: { nombreCliente, indaloClientes } });
-      } else {
-        console.log("Credenciales incorrectas.");
-        setErrorMensaje("Las credenciales ingresadas no son válidas.");
-      }
+      const response = await login(cuit, password);
+      // Guarda el token en el estado
+      const token = response.token;
+      localStorage.setItem("token", token);
+      // Obtiene el nombre del cliente
+      const nombreCliente = response.nombre;
+      setNombreCliente(nombreCliente);
+      // Obtiene el nombres del clientes
+      const indaloClientes = response.nombres;
+      setNombresClientes(nombresClientes);
+      // Redirige al componente deseado
+      navigate("/marcas", { state: { nombreCliente, indaloClientes } });
     } catch (error) {
-      setMensaje("Error al verificar las credenciales.");
-      setErrorMensaje("Error al verificar las credenciales.");
+      setMensaje("CUIT o password Incorrecto");
+      setErrorMensaje("CUIT o password Incorrecto");
     }
   };
 

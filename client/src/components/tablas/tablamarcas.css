@@ -1,0 +1,203 @@
+*{
+  border: none;
+}
+
+
+:root{
+  --red-color: rgb(215, 94, 85);
+  --blue-dark: rgb(30, 25, 44);
+  --blue-medium: rgb(45, 41, 88);
+  --light-bg: rgb(219, 217, 228);
+}
+
+td {
+    padding: 5px !important;
+    color: white;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(215, 94, 85) !important;
+}
+
+th{
+    background-color: rgb(32, 29, 63, 0.8) !important;
+    color: beige !important;
+    border-top: 1px solid rgb(51, 93, 152) !important;
+    border-bottom: 1px solid rgb(51, 93, 152) !important;;
+}
+
+.p-button {
+    padding: 5px 8px ;
+    margin-left: 5px;
+    background-color: rgb(215, 94, 85) !important;
+    border: 1px solid rgb(36, 28, 68) !important;
+    border-radius: 10px;
+}
+
+.p-paginator{
+  background: transparent !important;
+  border: none !important;
+  border-top: 1px solid rgb(215, 94, 85) !important;
+}
+
+.p-datatable-header {
+    background-color: transparent !important;
+    
+}
+
+.p-datatable .p-datatable-tbody > tr {
+    background-color: transparent !important; 
+    transition: background-color 0.3s ease !important;
+    border-bottom: 1px solid rgb(78, 78, 80) !important;
+    cursor: pointer;
+    
+  }
+
+  .p-datatable .p-datatable-header{
+    border: none !important;
+  }
+  
+  /* Estilo para la fila en hover */
+  .p-datatable .p-datatable-tbody > tr:hover {
+    background-color: rgb(32,62,124, 0.5) !important; 
+    cursor: pointer; 
+  }
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight{
+  background-color: rgb(215, 94, 85);
+  color: white;
+}
+
+  .modalhead {
+
+    padding: 10px;
+    color: white;
+  }
+
+  .modalhead h2 {
+    margin: 0;
+  }
+
+  .p-dialog .p-dialog-header .p-dialog-header-icon {
+    color: rgb(30, 25, 44);
+    background: white;
+    margin: 5px;
+  }
+
+  .p-dialog .p-dialog-header {
+    background-color: rgb(215, 94, 85);
+    padding: 5px;
+    
+  }
+
+ .info-client {
+    margin-top: 20px;
+  }
+ 
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nomb-emp{
+    margin: auto;
+    color: White;
+    font-weight: 500;
+  }
+
+  .titulo{
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+
+
+  
+
+
+.btn-success {
+  --bs-btn-bg: var(--red-color) !important;
+  --bs-btn-border-color: rgb(30, 25, 44) !important;
+  --bs-btn-hover-bg: rgb(30, 25, 44) !important;
+  --bs-btn-hover-border-color: rgb(30, 25, 44) !important;
+  --bs-btn-active-bg: rgb(30, 25, 44) !important;
+  --bs-btn-active-border-color: rgb(30, 25, 44) !important;
+  --bs-btn-disabled-bg: rgb(30, 25, 44) !important;
+  --bs-btn-disabled-border-color: rgb(30, 25, 44) !important;
+}
+
+.dropdown-menu {
+  --bs-dropdown-link-hover-bg: rgb(176, 171, 197)!important;
+}
+
+
+.p-datatable {
+    /* Ajusta el valor del margen según tus necesidades */
+     
+     background: var( --blue-medium);
+     background-image: URL("../img/ggg.png");
+     background-size: auto 100%;
+     background-position: center;
+     background-repeat: no-repeat;
+     border: 1px solid var(--blue-medium);
+   }
+
+.p-datatable-wrapper{
+    min-height: 60vh;
+}
+
+.light-bg {
+  background: var( --light-bg);
+  background-image: URL("../img/q_trans2.png");
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+}
+
+.dark-text-color {
+  color: var(--blue-medium);
+  font-weight: 600;
+}
+
+.nomb-emp-dark{
+  color: var(--blue-dark) ;
+}
+
+
+.table-container {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    padding: 20px 10px;
+  }
+
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
+    color: white;
+  }
+
+.p-paginator .p-paginator-pages .p-paginator-page{
+  color: white;
+}
+
+  
+  @media (max-width: 768px) {
+    .header {
+      display: flex;
+      flex-direction: column-reverse; 
+      text-align: center;
+      margin: auto;
+    }
+  
+    .header .p-input-icon-left {
+      margin-top: 10px;
+      
+    }
+    
+    #start {
+      justify-content: flex-start !important;
+    }
+   
+  
+  }
+
+  
+ /* rgb(32,62,124) */

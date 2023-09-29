@@ -5,10 +5,9 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import "./App.css";
 import { useEffect } from "react";
-import BarraNav from "./components/BarraNav";
-import TablaMarcas from "./components/TablaMarcas";
+import BarraNav from "./components/navbar/BarraNav";
+import TablaMarcas from "./components/tablas/TablaMarcas";
 import Log from "./components/Login/Log";
 import Forgot from "./components/Recupero/Forgot";
 import Reset from "./components/Recupero/Reset";

@@ -10,10 +10,6 @@
   font-size: 18px !important; 
 }
 
-.navbar {
-  padding: 0 10px !important;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5) */
-}
 
 .logoqua {
   margin-right: 30px;
@@ -43,7 +39,7 @@
 
 h4 {
   position: relative;
-  right: 120px;
+  right: 100px;
   color: rgb(255, 255, 255) !important;
   font-size: 34px !important;
   margin: 0 !important;
@@ -61,34 +57,35 @@ button:not(:disabled) {
 .log-btn{
   min-width: 50px;
   text-decoration: none;
-  color: rgb(45, 41, 88);
+  color: white;
   justify-content: center;
   font-weight: 600;
-  
 }
 
 .log-btn:hover{
   text-decoration: none;
   color: rgb(255, 255, 255) !important;
-  
-
 }
 
-.btn-h:hover, 
-.btn-h:hover .log-btn {
-  color: white;
-}
+
 
 .collapse-custom{
   flex-grow: 0 !important;
 }
 
+.darkMode-icon {
+  font-size: 2rem;
+  color: rgb(252, 252, 252);
+  cursor: pointer;
+}
+
+
 .btn-outline-light { 
   min-width: 70px;
-  border-radius: 20px !important;
+  
   margin: 10px 20px ;
     --bs-btn-color: rgb(45, 41, 88) !important;
-    --bs-btn-bg:  rgb(255, 255, 255) !important;
+    --bs-btn-bg:  rgb(215, 94, 85) !important;
     --bs-btn-border-color: rgb(45, 41, 88) !important;
     --bs-btn-hover-bg: rgb(176, 171, 197)!important;
     --bs-btn-hover-color: rgb(255, 255, 255)!important;
@@ -98,14 +95,30 @@ button:not(:disabled) {
     --bs-btn-active-border-color: rgb(36, 28, 68) !important;
     --bs-btn-disabled-bg: rgb(36, 28, 68) !important;
     --bs-btn-disabled-border-color: rgb(36, 28, 68) !important;
+    border-radius: 20px !important;
 
 }
 
 .btn-outline-light:hover {
-  border-color: rgb(215, 94, 85) !important;
-  background-color: rgb(215, 94, 85) !important;
+  border-color: rgb(51, 93, 152) !important;
+  background-color: rgb(51, 93, 152) !important;
 
 }
+
+.btn-h {
+  color: white !important;
+  transition: 0.3s ease !important;
+  border-radius: 5px !important;
+  margin-left: 30px;
+}
+
+.btn-h:hover, 
+.btn-h:hover .log-btn {
+  color: white;
+}
+
+
+
 
 @media (max-width: 767px) {
   

@@ -4,20 +4,26 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
-import axios from "axios";
 import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
-import "./css/tablamarcas.css";
+import "./tablamarcas.css";
 import "primeicons/primeicons.css";
 import { useLocation } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import boletin from "./img/1boletin.jpg";
+import boletin from "../img/1boletin.jpg";
 import { useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../components/helpers/auth";
+import { isAuthenticated } from "../helpers/auth";
+import "../navbar/script";
+import { getMarcas } from "../helpers/api";
 
 const TablaMarcas = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/log");
+    }
+  }, [navigate]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
@@ -30,13 +36,6 @@ const TablaMarcas = () => {
     vencimiento: { value: null, matchMode: FilterMatchMode.CONTAINS },
     vencimiento_du: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/log");
-    }
-  }, []);
-
   const location = useLocation();
   const [nombreCliente, setNombreCliente] = useState(
     location.state ? location.state.nombreCliente : "Cliente no definido"
@@ -48,10 +47,8 @@ const TablaMarcas = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/marcas?nombreCliente=${nombreCliente}`
-        );
-        setMarcas(response.data);
+        const data = await getMarcas(nombreCliente);
+        setMarcas(data);
       } catch (error) {
         console.error(error);
       }
@@ -144,7 +141,7 @@ const TablaMarcas = () => {
         <DataTable
           value={marcas}
           paginator
-          rows={20}
+          rows={10}
           filters={filters}
           selectionMode="single"
           dataKey="id"
@@ -176,7 +173,12 @@ const TablaMarcas = () => {
               <span style={{ paddingLeft: "10px" }}>{rowData.nombre}</span>
             )}
           />
-          <Column field="acta" header="ACTA" style={{ minWidth: "100px" }} />
+          <Column
+            key="acta-column"
+            field="acta"
+            header="ACTA"
+            style={{ minWidth: "100px" }}
+          />
           <Column
             field="resolucion"
             header="RESOLUCION"
@@ -213,7 +215,7 @@ const TablaMarcas = () => {
         header={
           selectedRow && (
             <div className="modalhead">
-              <h2>{selectedRow.MARCA}</h2>
+              <h2>{selectedRow.nombre}</h2>
             </div>
           )
         }
