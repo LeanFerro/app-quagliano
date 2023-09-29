@@ -2,11 +2,12 @@
   border: none;
 }
 
+
 :root{
   --red-color: rgb(215, 94, 85);
   --blue-dark: rgb(30, 25, 44);
   --blue-medium: rgb(45, 41, 88);
-  --light-bg: rgb(203, 198, 221);
+  --light-bg: rgb(219, 217, 228);
 }
 
 td {
@@ -32,14 +33,14 @@ th{
 }
 
 .p-paginator{
-  background: transparent;
+  background: transparent !important;
+  border: none !important;
   border-top: 1px solid rgb(215, 94, 85) !important;
-  border-bottom: 1px solid rgb(45, 41, 88) !important;;
 }
 
 .p-datatable-header {
     background-color: transparent !important;
-    border-color: rgb(45, 41, 88) !important;
+    
 }
 
 .p-datatable .p-datatable-tbody > tr {
@@ -50,7 +51,9 @@ th{
     
   }
 
-
+  .p-datatable .p-datatable-header{
+    border: none !important;
+  }
   
   /* Estilo para la fila en hover */
   .p-datatable .p-datatable-tbody > tr:hover {
@@ -97,7 +100,7 @@ th{
   .nomb-emp{
     margin: auto;
     color: White;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .titulo{
@@ -134,10 +137,29 @@ th{
      background-size: auto 100%;
      background-position: center;
      background-repeat: no-repeat;
+     border: 1px solid var(--blue-medium);
    }
 
 .p-datatable-wrapper{
     min-height: 60vh;
+}
+
+.light-bg {
+  background: var( --light-bg);
+  background-image: URL("../img/q_trans2.png");
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+}
+
+.dark-text-color {
+  color: var(--blue-medium);
+  font-weight: 600;
+}
+
+.nomb-emp-dark{
+  color: var(--blue-dark) ;
 }
 
 
@@ -155,6 +177,7 @@ th{
 .p-paginator .p-paginator-pages .p-paginator-page{
   color: white;
 }
+
   
   @media (max-width: 768px) {
     .header {
@@ -176,4 +199,5 @@ th{
   
   }
 
+  
  /* rgb(32,62,124) */

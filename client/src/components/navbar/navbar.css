@@ -39,7 +39,7 @@
 
 h4 {
   position: relative;
-  right: 120px;
+  right: 100px;
   color: rgb(255, 255, 255) !important;
   font-size: 34px !important;
   margin: 0 !important;
@@ -67,33 +67,22 @@ button:not(:disabled) {
   color: rgb(255, 255, 255) !important;
 }
 
-.btn-h {
-  color: white !important;
-  transition: 0.3s ease !important;
-}
 
-.btn-h:hover, 
-.btn-h:hover .log-btn {
-  color: white;
-}
 
 .collapse-custom{
   flex-grow: 0 !important;
 }
 
-#darkMode-icon {
-  font-size: 2.4rem;
+.darkMode-icon {
+  font-size: 2rem;
   color: rgb(252, 252, 252);
   cursor: pointer;
 }
 
-.dark-mode{
-  --blue-medium: rgb(203, 198, 221);
-}
 
 .btn-outline-light { 
   min-width: 70px;
-  border-radius: 20px !important;
+  
   margin: 10px 20px ;
     --bs-btn-color: rgb(45, 41, 88) !important;
     --bs-btn-bg:  rgb(215, 94, 85) !important;
@@ -115,6 +104,21 @@ button:not(:disabled) {
   background-color: rgb(51, 93, 152) !important;
 
 }
+
+.btn-h {
+  color: white !important;
+  transition: 0.3s ease !important;
+  border-radius: 5px !important;
+  margin-left: 30px;
+}
+
+.btn-h:hover, 
+.btn-h:hover .log-btn {
+  color: white;
+}
+
+
+
 
 @media (max-width: 767px) {
   

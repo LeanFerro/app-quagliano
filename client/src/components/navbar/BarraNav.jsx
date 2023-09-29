@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
+import { BsSun, BsMoon } from "react-icons/bs";
 import logo from "../img/logo_blanco1.png";
 import qLogo from "../img/LG.png";
 import linea from "../img/linea.jpg";
 import { logout } from "..//helpers/auth";
 import { isAuthenticated } from "../helpers/auth";
+import "../tablas/tablamarcas.css";
+import { handleDarkModeToggle } from "./script";
 
 const BarraNav = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -28,6 +32,11 @@ const BarraNav = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    handleDarkModeToggle(!isDarkMode);
+  };
 
   return (
     <div>
@@ -65,7 +74,15 @@ const BarraNav = () => {
             id="responsive-navbar-nav"
             className="collapse-custom"
           >
-            <div class="bx bx-sun" id="darkMode-icon"></div>
+            {isAuthenticated() && (
+              <div>
+                {isDarkMode ? (
+                  <BsMoon className="darkMode-icon" onClick={handleDarkMode} />
+                ) : (
+                  <BsSun className="darkMode-icon" onClick={handleDarkMode} />
+                )}
+              </div>
+            )}
             <Nav className="ml-auto">
               {isAuthenticated() && (
                 <Button

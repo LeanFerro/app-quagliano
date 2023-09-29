@@ -29,7 +29,7 @@ const TablaMarcas = () => {
   const [marcas, setMarcas] = useState([]);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    MARCA: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
     acta: { value: null, matchMode: FilterMatchMode.CONTAINS },
     resolucion: { value: null, matchMode: FilterMatchMode.CONTAINS },
     clase: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -147,7 +147,7 @@ const TablaMarcas = () => {
           dataKey="id"
           header={header}
           globalFilterFields={[
-            "MARCA",
+            "nombre",
             "acta",
             "resolucion",
             "clase",
@@ -166,14 +166,19 @@ const TablaMarcas = () => {
             )}
           />
           <Column
-            field="MARCA"
+            field="nombre"
             header="MARCA"
             style={{ minWidth: "400px" }}
             body={(rowData) => (
               <span style={{ paddingLeft: "10px" }}>{rowData.nombre}</span>
             )}
           />
-          <Column field="acta" header="ACTA" style={{ minWidth: "100px" }} />
+          <Column
+            key="acta-column"
+            field="acta"
+            header="ACTA"
+            style={{ minWidth: "100px" }}
+          />
           <Column
             field="resolucion"
             header="RESOLUCION"
