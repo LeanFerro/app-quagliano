@@ -94,19 +94,25 @@ const getLogin = function (req, res) {
         .send("Error al verificar las credenciales en la base de datos.");
     } else {
       if (clientes.length > 0) {
-        console.log(clientes);
         bcrypt.compare(
           secreto,
           getSecreto(cuit, clientes),
           function (err, cliente) {
-            console.log(cliente);
             if (cliente) {
               const token = jwt.sign({ cuit: cuit }, process.env.JWT_SECRETO, {
                 expiresIn: "1h",
               });
-              const nombres = clientes.map((cliente) => cliente.cliente);
+              let listado = "";
+              if (clientes.length >= 3000) {
+                listado = [getNombre(cuit, clientes)];
+                console.log("listado:", listado);
+              } else {
+                listado = clientes.map((cliente) => cliente.cliente);
+              }
+              const nombres = listado;
+
               const nombre = getNombre(cuit, clientes);
-              console.log("nombre de cliente: ", nombre);
+
               res.status(200).send({
                 message: "Credenciales válidas",
                 nombres,

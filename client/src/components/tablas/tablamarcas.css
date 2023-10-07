@@ -20,8 +20,8 @@ td {
 th{
     background-color: rgb(32, 29, 63, 0.8) !important;
     color: beige !important;
-    border-top: 1px solid rgb(51, 93, 152) !important;
-    border-bottom: 1px solid rgb(51, 93, 152) !important;;
+    
+    border-bottom: 1px solid rgb(215, 94, 85)  ;
 }
 
 .p-button {
@@ -35,7 +35,7 @@ th{
 .p-paginator{
   background: transparent !important;
   border: none !important;
-  border-top: 1px solid rgb(215, 94, 85) !important;
+  /* border-top: 1px solid rgb(215, 94, 85) !important; */
 }
 
 .p-datatable-header {
@@ -125,7 +125,7 @@ th{
 }
 
 .dropdown-menu {
-  --bs-dropdown-link-hover-bg: rgb(176, 171, 197)!important;
+  --bs-dropdown-link-hover-bg: rgb(32,62,124,0.1)!important;
 }
 
 
@@ -133,12 +133,21 @@ th{
     /* Ajusta el valor del margen según tus necesidades */
      
      background: var( --blue-medium);
-     background-image: URL("../img/ggg.png");
+     background-image: URL("../img/q_trans.png");
      background-size: auto 100%;
      background-position: center;
      background-repeat: no-repeat;
      border: 1px solid var(--blue-medium);
    }
+
+   .p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
+    color: white;
+  }
+
+.p-paginator .p-paginator-pages .p-paginator-page{
+  color: white;
+}
+
 
 .p-datatable-wrapper{
     min-height: 60vh;
@@ -156,10 +165,21 @@ th{
 .dark-text-color {
   color: var(--blue-medium);
   font-weight: 600;
+  border-bottom: 1px solid var(--blue-medium) !important;
 }
 
 .nomb-emp-dark{
   color: var(--blue-dark) ;
+}
+
+.dark-paginator .p-paginator-first,
+.dark-paginator .p-paginator-prev,
+.dark-paginator .p-paginator-next,
+.dark-paginator .p-paginator-last,
+.dark-paginator .p-paginator-pages,
+.dark-paginator .p-paginator-page,
+.dark-paginator .p-paginator-page.p-highlight{
+  color: var(--blue-medium) !important;
 }
 
 
@@ -170,13 +190,6 @@ th{
     padding: 20px 10px;
   }
 
-.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
-    color: white;
-  }
-
-.p-paginator .p-paginator-pages .p-paginator-page{
-  color: white;
-}
 
   
   @media (max-width: 768px) {

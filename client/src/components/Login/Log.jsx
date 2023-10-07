@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./log.css";
 import { Modal, Button, NavLink } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import chk from "./check.png";
 import { login, verificarCuit, signup } from "../helpers/api.js";
 
 const Log = () => {
@@ -78,6 +77,7 @@ const Log = () => {
       setNombreCliente(nombreCliente);
       // Obtiene el nombres del clientes
       const indaloClientes = response.nombres;
+      console.log(indaloClientes);
       setNombresClientes(nombresClientes);
       // Redirige al componente deseado
       navigate("/marcas", { state: { nombreCliente, indaloClientes } });
@@ -233,7 +233,6 @@ const Log = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex align-items-center ">
-            <img src={chk} alt="" className="chk" />
             <h4 className="nomb-modal">{nombreCliente}</h4>
           </div>
           <p className="p-modal">¡El usuario ha sido registrado con éxito!</p>

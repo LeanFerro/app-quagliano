@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
@@ -14,10 +14,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import boletin from "../img/1boletin.jpg";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../helpers/auth";
-import "../navbar/script";
 import { getMarcas } from "../helpers/api";
+import DarkModeContext from "../helpers/DarkModeContext";
 
 const TablaMarcas = () => {
+  const { isDarkMode } = useContext(DarkModeContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -74,7 +75,9 @@ const TablaMarcas = () => {
     return (
       <div>
         <div className="titulo">
-          <h1 className="nomb-emp">{nombreCliente}</h1>
+          <h1 className={isDarkMode ? "nomb-emp-dark" : "nomb-emp"}>
+            {nombreCliente}
+          </h1>
         </div>
         <div className="header">
           <div className="flex justify-content-end start" id="start">
@@ -151,8 +154,10 @@ const TablaMarcas = () => {
     <div>
       <div className="table-container">
         <DataTable
+          className={isDarkMode ? "light-bg" : ""}
           value={marcas}
           paginator
+          paginatorClassName={isDarkMode ? "dark-paginator" : ""}
           rows={10}
           filters={filters}
           selectionMode="single"
@@ -169,6 +174,7 @@ const TablaMarcas = () => {
           emptyMessage="No se encontraron resultados"
         >
           <Column
+            className={isDarkMode ? "dark-text-color" : ""}
             body={(rowData) => (
               <Button
                 label=""
@@ -178,6 +184,7 @@ const TablaMarcas = () => {
             )}
           />
           <Column
+            className={isDarkMode ? "dark-text-color" : ""}
             field="MARCA"
             header="MARCA"
             style={{ minWidth: "400px" }}
@@ -185,8 +192,14 @@ const TablaMarcas = () => {
               <span style={{ paddingLeft: "10px" }}>{rowData.MARCA}</span>
             )}
           />
-          <Column field="ACTA" header="ACTA" style={{ minWidth: "100px" }} />
           <Column
+            className={isDarkMode ? "dark-text-color" : ""}
+            field="ACTA"
+            header="ACTA"
+            style={{ minWidth: "100px" }}
+          />
+          <Column
+            className={isDarkMode ? "dark-text-color" : ""}
             field="NRESO"
             header="RESOLUCION"
             style={{ minWidth: "100px" }}
@@ -195,6 +208,7 @@ const TablaMarcas = () => {
             )}
           />
           <Column
+            className={isDarkMode ? "dark-text-color" : ""}
             field="CLASE"
             header="CLASE"
             style={{ minWidth: "80px", paddingLeft: "5px" }}
@@ -203,12 +217,14 @@ const TablaMarcas = () => {
             )}
           />
           <Column
+            className={isDarkMode ? "dark-text-color" : ""}
             field="FEC_VTO"
             header="VTO MARCA"
             style={{ minWidth: "125px", paddingLeft: "5px" }}
             body={tiempo}
           />
           <Column
+            className={isDarkMode ? "dark-text-color" : ""}
             field="FVTODU"
             header="VTO DU"
             style={{ minWidth: "125px", paddingLeft: "5px" }}
