@@ -164,12 +164,12 @@ const TablaMarcas = () => {
           dataKey="ID_MARCA"
           header={header}
           globalFilterFields={[
-            "nombre",
-            "acta",
-            "resolucion",
-            "clase",
-            "vencimiento",
-            "vencimiento_du",
+            "MARCA",
+            "ACTA",
+            "NRESO",
+            "CLASE",
+            "FEC_VTO",
+            "FVTODU",
           ]}
           emptyMessage="No se encontraron resultados"
         >
