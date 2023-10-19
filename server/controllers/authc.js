@@ -78,8 +78,8 @@ const getLogin = function (req, res) {
       SELECT c.cliente, c.cuit, u.secreto
       FROM clientes c 
       LEFT JOIN usuarios u ON c.cuit = u.cuit
-      WHERE c.aclaracion LIKE CONCAT(
-      (SELECT SUBSTRING(aclaracion, 1, 6) 
+      WHERE c.grupo LIKE CONCAT(
+      (SELECT SUBSTRING(grupo, 1, 6) 
        FROM clientes
        WHERE cuit = ?),
       '%'
