@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
@@ -8,8 +8,7 @@ import qLogo from "../img/LG.png";
 import linea from "../img/linea.jpg";
 import { logout } from "..//helpers/auth";
 import { isAuthenticated } from "../helpers/auth";
-import DarkModeContext from '../helpers/DarkModeContext';
-
+import DarkModeContext from "../helpers/DarkModeContext";
 
 const BarraNav = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -36,8 +35,6 @@ const BarraNav = () => {
   const handleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
-
- 
 
   return (
     <div>
@@ -77,10 +74,10 @@ const BarraNav = () => {
           >
             {isAuthenticated() && (
               <div>
-                {isDarkMode ? (
-                  <BsMoon className="darkMode-icon" onClick={handleDarkMode} />
-                ) : (
+                {!isDarkMode ? (
                   <BsSun className="darkMode-icon" onClick={handleDarkMode} />
+                ) : (
+                  <BsMoon className="darkMode-icon" onClick={handleDarkMode} />
                 )}
               </div>
             )}
