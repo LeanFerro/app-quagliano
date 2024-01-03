@@ -18,7 +18,6 @@ import DarkModeContext from "./components/helpers/DarkModeContext";
 const MainRoutes = () => {
   const navigate = useNavigate();
   const isAuth = isAuthenticated();
-  
 
   useEffect(() => {
     if (
@@ -45,12 +44,12 @@ const MainRoutes = () => {
 };
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   return (
     <div className="container-fluid cont-total fondito">
       <BrowserRouter>
         <DarkModeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-         <MainRoutes />
+          <MainRoutes />
         </DarkModeContext.Provider>
       </BrowserRouter>
     </div>
