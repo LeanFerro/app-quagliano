@@ -56,7 +56,6 @@ const TablaMarcas = () => {
   const [indaloClientes] = useState(
     location.state ? location.state.indaloClientes : []
   );
-  console.log(indaloClientes);
 
   const [clientesFiltradosEstado, setClientesFiltradosEstado] =
     useState(indaloClientes);
@@ -69,7 +68,6 @@ const TablaMarcas = () => {
     const fetchData = async () => {
       try {
         const data = await getMarcas(nombreCliente);
-        console.log(data);
         setMarcas(data);
       } catch (error) {
         console.error(error);
