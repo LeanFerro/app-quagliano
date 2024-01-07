@@ -13,6 +13,7 @@ const Log = () => {
   const [nombresClientes, setNombresClientes] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [errorMensaje, setErrorMensaje] = useState("");
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -75,12 +76,16 @@ const Log = () => {
       // Obtiene el nombre del cliente
       const nombreCliente = response.nombre;
       setNombreCliente(nombreCliente);
+      // Obtiene el role
+      const role = response.role;
+      setRole(role);
+      console.log(role);
       // Obtiene el nombres del clientes
       const indaloClientes = response.nombres;
       console.log(indaloClientes);
       setNombresClientes(nombresClientes);
       // Redirige al componente deseado
-      navigate("/marcas", { state: { nombreCliente, indaloClientes } });
+      navigate("/marcas", { state: { nombreCliente, indaloClientes, role } });
     } catch (error) {
       setMensaje("CUIT o password Incorrecto");
       setErrorMensaje("CUIT o password Incorrecto");

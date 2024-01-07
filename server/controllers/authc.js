@@ -75,7 +75,7 @@ const getLogin = function (req, res) {
   const secreto = req.body.password;
 
   const sqlQuery = `
-      SELECT c.cliente, c.cuit, u.secreto
+      SELECT c.cliente, u.role, c.cuit, u.secreto
       FROM clientes c 
       LEFT JOIN usuarios u ON c.cuit = u.cuit
       WHERE c.aclaracion LIKE CONCAT(
@@ -110,13 +110,15 @@ const getLogin = function (req, res) {
                 listado = clientes.map((cliente) => cliente.cliente);
               }
               const nombres = listado;
-
+              const role = clientes[0].role;
+              console.log(role);
               const nombre = getNombre(cuit, clientes);
 
               res.status(200).send({
                 message: "Credenciales válidas",
                 nombres,
                 nombre,
+                role,
                 token: token,
               });
             } else {
