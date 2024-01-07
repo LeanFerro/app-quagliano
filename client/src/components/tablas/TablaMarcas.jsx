@@ -56,6 +56,7 @@ const TablaMarcas = () => {
   const [indaloClientes] = useState(
     location.state ? location.state.indaloClientes : []
   );
+  console.log(indaloClientes);
 
   const [clientesFiltradosEstado, setClientesFiltradosEstado] =
     useState(indaloClientes);
@@ -94,9 +95,7 @@ const TablaMarcas = () => {
     setNombreCliente(cliente);
     setDropdownOpen(false);
     setSearch(cliente);
-    
   };
-
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -124,19 +123,18 @@ const TablaMarcas = () => {
     setDropdownOpen(true);
   };
 
-
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearch(value);
     setDropdownOpen(true);
-    setFiltroCliente(e.target.value)
+    setFiltroCliente(e.target.value);
     if (value) {
       const filtered = indaloClientes.filter((cliente) =>
         cliente.toLowerCase().includes(value.toLowerCase())
       );
       setClientesFiltradosEstado(filtered); // Aquí es donde se debe corregir
     } else {
-      setClientesFiltradosEstado(indaloClientes); 
+      setClientesFiltradosEstado(indaloClientes);
     }
   };
 
@@ -147,7 +145,7 @@ const TablaMarcas = () => {
         )
       : indaloClientes;
 
-    setClientesFiltradosEstado(clientesFiltrados); 
+    setClientesFiltradosEstado(clientesFiltrados);
   }, [filtroCliente, indaloClientes]);
 
   const renderHeader = () => {
@@ -190,7 +188,6 @@ const TablaMarcas = () => {
                 value={search}
                 onChange={handleInputChange}
                 onClick={handleInputClick}
-                
               />
               <button
                 onClick={toggleDropdown}
