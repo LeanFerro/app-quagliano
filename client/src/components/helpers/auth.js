@@ -1,12 +1,14 @@
+import Cookies from "js-cookie";
+
 export const getToken = () => {
-    return localStorage.getItem("token");
-  };
-  
-  export const isAuthenticated = () => {
-    const token = getToken();
-    return token != null;
-  };
-  
-  export const logout = () => {
-    localStorage.removeItem("token");
-  };
+  return Cookies.get("token");
+};
+
+export const isAuthenticated = () => {
+  const token = getToken();
+  return token != null;
+};
+
+export const logout = () => {
+  Cookies.remove("token");
+};

@@ -3,6 +3,7 @@ import "./log.css";
 import { Modal, Button, NavLink } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { login, verificarCuit, signup } from "../helpers/api.js";
+import Cookies from "js-cookie";
 
 const Log = () => {
   const [showModal, setShowModal] = useState(false);
@@ -71,7 +72,7 @@ const Log = () => {
       const response = await login(cuit, password);
       // Guarda el token en el estado
       const token = response.token;
-      localStorage.setItem("token", token);
+      Cookies.set("token", token, { expires: 1 / 3 });
       // Obtiene el nombre del cliente
       const nombreCliente = response.nombre;
       setNombreCliente(nombreCliente);

@@ -48,7 +48,7 @@ const BarraNav = () => {
         <Container fluid>
           {/* Logo para pantallas grandes */}
           {!isMobile && (
-            <Navbar.Brand as={Link} to="/">
+            <Navbar.Brand>
               <img src={logo} alt="Estudio Quagliano" className="logoqua" />
             </Navbar.Brand>
           )}

@@ -179,14 +179,16 @@ const TablaMarcas = () => {
             className="d-inline-block"
           >
             <div className="d-flex">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Buscar empresa..."
-                value={search}
-                onChange={handleInputChange}
-                onClick={handleInputClick}
-              />
+              <span className="p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText
+                  type="text"
+                  placeholder="Buscar empresa..."
+                  value={search}
+                  onChange={handleInputChange}
+                  onClick={handleInputClick}
+                />
+              </span>
               <button
                 onClick={toggleDropdown}
                 className="btn btn-success dropdown-toggle-split"

@@ -20,7 +20,6 @@ td {
 th{
     background-color: rgb(32, 29, 63, 0.8) !important;
     color: beige !important;
-    
     border-bottom: 1px solid rgb(215, 94, 85)  ;
 }
 
@@ -30,6 +29,7 @@ th{
     background-color: rgb(215, 94, 85) !important;
     border: 1px solid rgb(36, 28, 68) !important;
     border-radius: 10px;
+    
 }
 
 .p-paginator{
@@ -100,7 +100,7 @@ th{
   .nomb-emp{
     margin: auto;
     color: White;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .titulo{
@@ -120,8 +120,16 @@ th{
   --bs-btn-disabled-border-color: rgb(30, 25, 44) !important;
 }
 
+.p-button-icon-only{
+  transition: all .5s ease;
+}
+
+.p-button-icon-only:hover{
+  background-color: rgb(45, 41, 88) !important;
+}
+
 .dropdown-menu {
-  --bs-dropdown-link-hover-bg: rgb(32,62,124,0.1)!important;
+  --bs-btn-hover-bg: rgb(30, 25, 44) !important;
 }
 
 
@@ -166,6 +174,7 @@ th{
 
 .nomb-emp-dark{
   color: var(--blue-dark) ;
+  font-weight: 600;
 }
 
 .dark-paginator .p-paginator-first,
@@ -204,6 +213,11 @@ th{
     #start {
       justify-content: flex-start !important;
     }
+
+    .dropdown-menu.show {
+      left: 0;
+      font-size: 14px;
+  }
    
   
   }
