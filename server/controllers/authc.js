@@ -70,12 +70,18 @@ const getSecreto = (cuit, clientes) => {
   }
 };
 
+const getRole = (cuit, clientes) => {
+  for (let i = 0; i < clientes.length; i++) {
+    if (clientes[i].cuit == cuit) return clientes[i].role;
+  }
+};
+
 const getLogin = function (req, res) {
   const cuit = req.body.cuit;
   const secreto = req.body.password;
 
   const sqlQuery = `
-      SELECT c.cliente, c.cuit, u.secreto
+      SELECT c.cliente, u.role, c.cuit, u.secreto
       FROM clientes c 
       LEFT JOIN usuarios u ON c.cuit = u.cuit
       WHERE c.aclaracion LIKE CONCAT(
@@ -110,15 +116,38 @@ const getLogin = function (req, res) {
                 listado = clientes.map((cliente) => cliente.cliente);
               }
               const nombres = listado;
-
+              const role = getRole(cuit, clientes);
+              console.log(role);
               const nombre = getNombre(cuit, clientes);
 
-              res.status(200).send({
-                message: "Credenciales válidas",
-                nombres,
-                nombre,
-                token: token,
-              });
+              if (role === "admin") {
+                // Si el rol es 'admin', enviar todos los clientes al frontend
+                dbconnection.query("SELECT cliente FROM clientes", (error, result) => {
+                  if (error) {
+                    console.error("Error al ejecutar la consulta:", error);
+                    res.status(500).send("Error al obtener los nombres de los clientes.");
+                  } else {
+                    const nombres = result.map((cliente) => cliente.cliente);
+                    res.status(200).send({
+                      message: "Credenciales válidas",
+                      clientes: clientes.map((cliente) => cliente.cliente),
+                      nombres,
+                      nombre,
+                      role,
+                      token,
+                    });
+                  }
+                });
+              } else {
+                // Si el rol no es 'admin', enviar solo la información del usuario autenticado
+                res.status(200).send({
+                  message: "Credenciales válidas",
+                  nombres,
+                  nombre,
+                  role,
+                  token,
+                });
+              }
             } else {
               console.log("primero Credenciales incorrectas.");
               res.status(401).send("Credenciales incorrectas.");

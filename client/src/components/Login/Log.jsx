@@ -75,10 +75,13 @@ const Log = () => {
       // Obtiene el nombre del cliente
       const nombreCliente = response.nombre;
       setNombreCliente(nombreCliente);
+
       // Obtiene el nombres del clientes
       const indaloClientes = response.nombres;
       console.log(indaloClientes);
+
       setNombresClientes(nombresClientes);
+
       // Redirige al componente deseado
       navigate("/marcas", { state: { nombreCliente, indaloClientes } });
     } catch (error) {

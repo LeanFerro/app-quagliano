@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useRef,
+} from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
@@ -16,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../helpers/auth";
 import { getMarcas } from "../helpers/api";
 import DarkModeContext from "../helpers/DarkModeContext";
+import { FaCaretDown } from "react-icons/fa";
 
 const TablaMarcas = () => {
   const { isDarkMode } = useContext(DarkModeContext);
@@ -28,6 +35,11 @@ const TablaMarcas = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [marcas, setMarcas] = useState([]);
+  const [filtroCliente, setFiltroCliente] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const menuRef = useRef(null);
+  const [search, setSearch] = useState(""); // Estado para el valor del input
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     MARCA: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -45,11 +57,17 @@ const TablaMarcas = () => {
     location.state ? location.state.indaloClientes : []
   );
 
+  const [clientesFiltradosEstado, setClientesFiltradosEstado] =
+    useState(indaloClientes);
+
+  // const [role] = useState(
+  //   location.state ? location.state.role : []
+  // );
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getMarcas(nombreCliente);
-        console.log(data);
         setMarcas(data);
       } catch (error) {
         console.error(error);
@@ -70,6 +88,63 @@ const TablaMarcas = () => {
       },
     }));
   }, [location.search]);
+
+  const handleSelectCliente = (cliente) => {
+    setNombreCliente(cliente);
+    setDropdownOpen(false);
+    setSearch(cliente);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+    // Si el dropdown está cerrado, restablecer la búsqueda y mostrar todos los clientes
+    if (!dropdownOpen) {
+      setSearch("");
+      setClientesFiltradosEstado(indaloClientes);
+    }
+  };
+
+  const handleInputClick = () => {
+    setSearch("");
+    setDropdownOpen(true);
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    setDropdownOpen(true);
+    setFiltroCliente(e.target.value);
+    if (value) {
+      const filtered = indaloClientes.filter((cliente) =>
+        cliente.toLowerCase().includes(value.toLowerCase())
+      );
+      setClientesFiltradosEstado(filtered); // Aquí es donde se debe corregir
+    } else {
+      setClientesFiltradosEstado(indaloClientes);
+    }
+  };
+
+  useEffect(() => {
+    const clientesFiltrados = filtroCliente
+      ? indaloClientes.filter((cliente) =>
+          cliente.toLowerCase().includes(filtroCliente.toLowerCase())
+        )
+      : indaloClientes;
+
+    setClientesFiltradosEstado(clientesFiltrados);
+  }, [filtroCliente, indaloClientes]);
 
   const renderHeader = () => {
     return (
@@ -97,21 +172,45 @@ const TablaMarcas = () => {
               />
             </span>
           </div>
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Elegir empresa
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu style={{ maxHeight: "400px", overflowY: "auto" }}>
-              {Array.isArray(indaloClientes) &&
-                indaloClientes.map((cliente, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() => setNombreCliente(cliente)}
-                  >
-                    {cliente}
-                  </Dropdown.Item>
-                ))}
+          <Dropdown
+            ref={dropdownRef}
+            show={dropdownOpen}
+            onToggle={() => setDropdownOpen(!dropdownOpen)}
+            className="d-inline-block"
+          >
+            <div className="d-flex">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Buscar empresa..."
+                value={search}
+                onChange={handleInputChange}
+                onClick={handleInputClick}
+              />
+              <button
+                onClick={toggleDropdown}
+                className="btn btn-success dropdown-toggle-split"
+              >
+                <FaCaretDown />
+              </button>
+            </div>
+            <Dropdown.Menu
+              ref={menuRef}
+              style={{
+                maxHeight: "400px",
+                overflowY: "auto",
+                position: "absolute",
+                right: "0",
+              }}
+            >
+              {clientesFiltradosEstado.map((cliente, index) => (
+                <Dropdown.Item
+                  key={index}
+                  onClick={() => handleSelectCliente(cliente)}
+                >
+                  {cliente}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
         </div>
